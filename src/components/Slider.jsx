@@ -36,15 +36,17 @@ function Slider({ slides }) {
             >
               <FaArrowAltCircleLeft
                 onClick={prevSlide}
-                class="absolute top-[50%] left-[30px] text-white/70 cursor-pointer select-none z-[2]"
+                className="absolute top-[50%] left-[30px] text-white/70 cursor-pointer select-none z-[2]"
                 size={50}
               />
+
               {index === current && (
                 <Image src={slide.image} alt="/" objectFit="cover" />
               )}
+
               <FaArrowAltCircleRight
                 onClick={nextSlide}
-                class="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
+                className="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
                 size={50}
               />
             </div>
