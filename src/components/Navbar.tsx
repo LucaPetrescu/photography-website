@@ -2,28 +2,58 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { usePathname } from "next/navigation";
 
-function Navbar() {
+function Navbar({ isWhiteBackground }: { isWhiteBackground: boolean }) {
   const [nav, setNav] = useState(false);
   const [color, setColor] = useState("transparent");
   const [textColor, setTextColor] = useState("white");
+  const router = useRouter();
 
   const handleNav = () => {
     setNav(!nav);
   };
 
+  // useEffect(() => {
+  //   const changeColor = () => {
+  //     if (window.scrollY >= 90) {
+  //       setColor("#ffffff");
+  //       setTextColor("#000000");
+  //     } else {
+  //       setColor("transparent");
+  //       setTextColor("#ffffff");
+  //     }
+  //   };
+  //   window.addEventListener("scroll", changeColor);
+  // }, []);
+
+  useEffect(() => {
+    const currentPath = router.pathname;
+    console.log(router);
+    if (currentPath === "/about") {
+      setColor("#ffffff");
+      setTextColor("#000000"); // Black text for "About" page
+    } else {
+      setColor("transparent");
+      setTextColor("#ffffff"); // White text for other pages
+    }
+  }, [router.pathname]);
+
+  // Scroll-based color changes
   useEffect(() => {
     const changeColor = () => {
       if (window.scrollY >= 90) {
         setColor("#ffffff");
         setTextColor("#000000");
       } else {
-        setColor("transparent");
-        setTextColor("#ffffff");
+        setColor(router.pathname === "/about" ? "#ffffff" : "transparent");
+        setTextColor(router.pathname === "/about" ? "#000000" : "#ffffff");
       }
     };
+
     window.addEventListener("scroll", changeColor);
-  }, []);
+    return () => window.removeEventListener("scroll", changeColor);
+  }, [router.pathname]);
 
   return (
     <div
@@ -41,16 +71,16 @@ function Navbar() {
             <Link href="/">Home</Link>
           </li>
           <li className="p-4">
-            <Link href="/">About Me</Link>
+            <Link href="/about">About Me</Link>
           </li>
           <li className="p-4">
-            <Link href="/">Gallery</Link>
+            <Link href="/#gallery">Gallery</Link>
           </li>
           <li className="p-4">
             <Link href="/">Gear I Use</Link>
           </li>
           <li className="p-4">
-            <Link href="/">Contact</Link>
+            <Link href="/contact">Contact</Link>
           </li>
         </ul>
 
@@ -67,19 +97,34 @@ function Navbar() {
           }
         >
           <ul>
-            <li className="p-4 text-4xl hover:text-gray-500">
+            <li
+              onClick={handleNav}
+              className="p-4 text-4xl hover:text-gray-500"
+            >
               <Link href="/">Home</Link>
             </li>
-            <li className="p-4 text-4xl hover:text-gray-500">
+            <li
+              onClick={handleNav}
+              className="p-4 text-4xl hover:text-gray-500"
+            >
               <Link href="/">About Me</Link>
             </li>
-            <li className="p-4 text-4xl hover:text-gray-500">
+            <li
+              onClick={handleNav}
+              className="p-4 text-4xl hover:text-gray-500"
+            >
               <Link href="/">Galery</Link>
             </li>
-            <li className="p-4 text-4xl hover:text-gray-500">
+            <li
+              onClick={handleNav}
+              className="p-4 text-4xl hover:text-gray-500"
+            >
               <Link href="/">Gear I Use</Link>
             </li>
-            <li className="p-4 text-4xl hover:text-gray-500">
+            <li
+              onClick={handleNav}
+              className="p-4 text-4xl hover:text-gray-500"
+            >
               <Link href="/">Contact</Link>
             </li>
           </ul>

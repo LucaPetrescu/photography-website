@@ -30,25 +30,34 @@ function Slider({ slides }) {
               key={index}
               className={
                 index === current
-                  ? "opacity-[1] ease-in duration-1000"
+                  ? "opacity-100 transition-opacity ease-in duration-1000"
                   : "opacity-0"
               }
             >
-              <FaArrowAltCircleLeft
-                onClick={prevSlide}
-                className="absolute top-[50%] left-[30px] text-white/70 cursor-pointer select-none z-[2]"
-                size={50}
-              />
-
               {index === current && (
-                <Image src={slide.image} alt="/" objectFit="cover" />
-              )}
+                <div className="relative w-full max-w-[800px] h-auto flex justify-center items-center">
+                  {/* Left Arrow */}
+                  <FaArrowAltCircleLeft
+                    onClick={prevSlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 cursor-pointer select-none z-[2]"
+                    size={50}
+                  />
 
-              <FaArrowAltCircleRight
-                onClick={nextSlide}
-                className="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
-                size={50}
-              />
+                  {/* Image */}
+                  <Image
+                    src={slide.image}
+                    alt="/"
+                    className="w-full h-auto object-contain"
+                  />
+
+                  {/* Right Arrow */}
+                  <FaArrowAltCircleRight
+                    onClick={nextSlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 cursor-pointer select-none z-[2]"
+                    size={50}
+                  />
+                </div>
+              )}
             </div>
           );
         })}

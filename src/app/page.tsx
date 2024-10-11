@@ -9,6 +9,7 @@ export default function Home() {
       <Hero
         heading="Hi, I am Luca"
         message="Let me help you capture your moments"
+        flag={true}
       />
       <Slider slides={SliderData}></Slider>
       <Instagram></Instagram>
