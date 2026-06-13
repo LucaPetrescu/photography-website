@@ -1,65 +1,139 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import heroImage from "@/public/images/hero/hero.jpg";
+import featureImage from "@/public/images/gallery/fog-field.jpg";
+import { Hero } from "@/components/layout/Hero";
+import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getFeaturedImages } from "@/lib/gallery";
 
-export default function Home() {
+export default function HomePage() {
+  const featured = getFeaturedImages(6);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <>
+      <Hero
+        image={heroImage}
+        imageAlt="Misty mountain ridgeline at dawn over a still valley."
+        eyebrow="Landscape & Portrait — Pacific Northwest"
+        headline="Light, patiently waited for."
+        lead="I photograph quiet places at the edge of the day — the half-hour when the land turns gold and goes still."
+      />
+
+      {/* Editorial feature split */}
+      <Container as="section" className="py-16 md:py-28">
+        <Reveal className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+          <div className="aspect-[4/5] overflow-hidden rounded-lg bg-surface-muted">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={featureImage}
+              alt="Low fog drifting across an open field at first light."
+              placeholder="blur"
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="h-full w-full object-cover"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          </div>
+          <div>
+            <p className="text-eyebrow font-medium uppercase tracking-[0.14em] text-accent">
+              The approach
+            </p>
+            <h2 className="mb-4 mt-3 font-display text-h2 font-semibold">
+              A small kit, long walks, and a great deal of standing still.
+            </h2>
+            <p className="mb-6 max-w-[40ch] text-body-lg text-muted">
+              No drones, no staging. Just early starts and the discipline to
+              wait for a scene to become itself. Most frames here took more time
+              to find than to take.
+            </p>
+            <Button href="/about" variant="ghost" className="group">
+              Read the story
+              <ArrowRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-[var(--dur-base)] group-hover:translate-x-0.5"
+              />
+            </Button>
+          </div>
+        </Reveal>
+      </Container>
+
+      {/* Selected work preview */}
+      <Container
+        as="section"
+        aria-labelledby="selected-work"
+        className="pb-16 md:pb-28"
+      >
+        <Reveal className="mb-10">
+          <SectionHeading
+            eyebrow="Selected work"
+            title="A few that stayed with me"
+            id="selected-work"
+          />
+        </Reveal>
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+          {featured.map((img, i) => (
+            <Reveal as="li" key={img.id} delay={i * 80}>
+              <Link
+                href="/gallery"
+                className="group relative block aspect-[4/5] overflow-hidden rounded-lg bg-surface-muted transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                aria-label={`View "${img.title}" in the gallery`}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  placeholder="blur"
+                  sizes="(min-width: 768px) 33vw, 50vw"
+                  className="h-full w-full object-cover transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:scale-105"
+                />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.55),transparent)] p-4 text-left text-white opacity-0 transition-opacity duration-[var(--dur-base)] group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span className="block text-body-sm">{img.title}</span>
+                  <span className="block font-mono text-mono text-white/80">
+                    {img.meta}
+                  </span>
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+        <Reveal className="mt-10 flex justify-center">
+          <Button href="/gallery" variant="ghost" className="group">
+            See the full gallery
+            <ArrowRight
+              size={16}
+              aria-hidden="true"
+              className="transition-transform duration-[var(--dur-base)] group-hover:translate-x-0.5"
+            />
+          </Button>
+        </Reveal>
+      </Container>
+
+      {/* CTA band — plain white with top border for a cleaner, more minimal feel */}
+      <section className="border-t border-border py-20 text-center md:py-36">
+        <Container>
+          <Reveal>
+            <p className="text-eyebrow font-medium uppercase tracking-[0.14em] text-accent">
+              Work together
+            </p>
+            <h2 className="mx-auto mb-4 mt-2 max-w-[18ch] font-display text-h1 font-semibold">
+              Commissions & print enquiries welcome.
+            </h2>
+            <p className="mx-auto mb-8 max-w-[48ch] text-body-lg text-muted">
+              Editorial assignments, fine-art prints, and the occasional wedding
+              for people who like to walk uphill before sunrise.
+            </p>
+            <Button href="/contact" variant="primary" className="group">
+              Get in touch
+              <ArrowRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-[var(--dur-base)] group-hover:translate-x-0.5"
+              />
+            </Button>
+          </Reveal>
+        </Container>
+      </section>
+    </>
   );
 }
