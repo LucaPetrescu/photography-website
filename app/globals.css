@@ -1,31 +1,30 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — white-dominant palette.
-   Clean, minimal photography portfolio aesthetic.
+   Design tokens — monochromatic, editorial palette.
+   Inspired by minimal photography portfolio aesthetics.
    ============================================================ */
 :root {
   --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-surface-muted: #f5f5f5;
-  --color-text: #171717;
-  --color-muted: #6b6b6b;
+  --color-text: #111111;
+  --color-muted: #888888;
   --color-border: #e8e8e8;
-  --color-accent: #4a6fa5;
-  --color-accent-hover: #3a5a8c;
-  --color-accent-subtle: #eef2f8;
-  --color-focus: #4a6fa5;
-  --color-success: #3f6b4e;
+  --color-accent: #111111;
+  --color-accent-hover: #000000;
+  --color-accent-subtle: #f0f0f0;
+  --color-focus: #111111;
+  --color-success: #2d6a4f;
   --color-error: #b23a2e;
 
   --container-prose: 68ch;
 
-  /* shadows + motion live as plain CSS vars (used via arbitrary values) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.3);
-  --dur-fast: 150ms;
-  --dur-base: 260ms;
-  --dur-slow: 480ms;
+  --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.25);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 400ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
@@ -57,27 +56,27 @@
   --radius-md: 8px;
   --radius-lg: 12px;
 
-  /* type scale (drives text-display, text-h1, … utilities) */
-  --text-display: clamp(2.75rem, 6vw, 4.5rem);
+  /* type scale */
+  --text-display: clamp(2.5rem, 5vw, 4rem);
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.02em;
-  --text-h1: 2.25rem;
-  --text-h1--line-height: 1.12;
+  --text-h1: 2rem;
+  --text-h1--line-height: 1.15;
   --text-h1--letter-spacing: -0.015em;
-  --text-h2: 1.75rem;
-  --text-h2--line-height: 1.2;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.25;
   --text-h2--letter-spacing: -0.01em;
-  --text-h3: 1.375rem;
-  --text-h3--line-height: 1.25;
-  --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.65;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.7;
   --text-body: 1rem;
   --text-body--line-height: 1.65;
   --text-body-sm: 0.875rem;
   --text-body-sm--line-height: 1.5;
-  --text-eyebrow: 0.75rem;
+  --text-eyebrow: 0.6875rem;
   --text-eyebrow--line-height: 1.4;
-  --text-eyebrow--letter-spacing: 0.14em;
+  --text-eyebrow--letter-spacing: 0.12em;
   --text-mono: 0.8125rem;
   --text-mono--line-height: 1.5;
 }
@@ -94,25 +93,24 @@ body {
   color: var(--color-text);
 }
 
-/* Global focus-visible ring — accent, 2px, offset. */
 :focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 1.5px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* Shared entrance keyframe — used for hero sequential reveals and gallery stagger. */
+/* Entrance keyframe used for hero, gallery stagger, and photo wall. */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(56px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: none;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Drawer / overlay entrance keyframes (Radix Dialog data-state hooks). */
+/* Overlay entrance keyframes (Radix Dialog). */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -130,17 +128,17 @@ body {
   }
 }
 
-/* Scroll-reveal animation primitive. Softer offset (10px) for a calmer feel. */
+/* Scroll-reveal primitive. */
 .reveal {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(40px) scale(0.98);
   transition:
-    opacity var(--dur-slow) var(--ease-out),
-    transform var(--dur-slow) var(--ease-out);
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: none;
+  transform: translateY(0) scale(1);
 }
 
 @media (prefers-reduced-motion: reduce) {

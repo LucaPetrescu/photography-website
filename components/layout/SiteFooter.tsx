@@ -5,72 +5,60 @@ import { Container } from "@/components/ui/Container";
 
 const year = new Date().getFullYear();
 
-/** Persistent site footer: wordmark + bio, nav repeat, social/contact links. */
 export function SiteFooter() {
   return (
-    <footer className="mt-8 border-t border-border py-16">
+    <footer className="mt-16 border-t border-border py-12">
       <Container>
-        <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div>
             <Link
               href="/"
-              className="font-display text-xl font-semibold tracking-[-0.01em] text-text"
+              className="text-sm font-medium text-text transition-colors hover:text-muted"
             >
-              Luca&nbsp;Petrescu
+              Luca Petrescu
             </Link>
-            <p className="mt-3 max-w-[34ch] text-body-sm text-muted">
-              {siteConfig.tagline}
+            <p className="mt-2 max-w-[30ch] text-[0.8125rem] text-muted">
+              {siteConfig.shortBio}
             </p>
           </div>
 
-          <nav aria-label="Footer">
-            <h2 className="mb-4 text-eyebrow font-medium uppercase tracking-[0.12em] text-muted">
-              Explore
-            </h2>
-            <ul className="grid gap-3">
-              {siteConfig.nav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-text transition-colors hover:text-accent"
-                  >
-                    {item.label === "Gear" ? "Gear I use" : item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-2">
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-[0.8125rem] text-muted transition-colors hover:text-text"
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
-          <div>
-            <h2 className="mb-4 text-eyebrow font-medium uppercase tracking-[0.12em] text-muted">
-              Elsewhere
-            </h2>
-            <div className="flex gap-2">
-              <a
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-muted hover:text-accent"
-                href={siteConfig.socials.instagram.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                <AtSign size={20} strokeWidth={1.75} aria-hidden="true" />
-              </a>
-              <a
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-muted hover:text-accent"
-                href={`mailto:${siteConfig.email}`}
-                aria-label="Email"
-              >
-                <Mail size={20} strokeWidth={1.75} aria-hidden="true" />
-              </a>
-            </div>
+          <div className="flex items-center gap-3">
+            <a
+              className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors hover:text-text"
+              href={siteConfig.socials.instagram.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <AtSign size={18} strokeWidth={1.5} aria-hidden="true" />
+            </a>
+            <a
+              className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors hover:text-text"
+              href={`mailto:${siteConfig.email}`}
+              aria-label="Email"
+            >
+              <Mail size={18} strokeWidth={1.5} aria-hidden="true" />
+            </a>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-body-sm text-muted">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-[0.75rem] text-muted">
           <span>
-            © {year} {siteConfig.name} · Built with care
+            &copy; {year} {siteConfig.name}
           </span>
-          <span className="font-mono text-mono">{siteConfig.location}</span>
+          <span>{siteConfig.location}</span>
         </div>
       </Container>
     </footer>

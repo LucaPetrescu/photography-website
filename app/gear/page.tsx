@@ -13,12 +13,12 @@ export default function GearPage() {
   const groups = getGearGroups();
 
   return (
-    <div className="pt-[72px]">
-      <Container as="section" className="pb-4 pt-14">
-        <p className="text-eyebrow font-medium uppercase tracking-[0.14em] text-accent">
-          Gear I use
+    <div className="pt-14">
+      <Container as="section" className="pb-4 pt-12">
+        <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+          Gear I Use
         </p>
-        <h1 className="mt-2 font-display text-display font-semibold">
+        <h1 className="mt-4 font-display text-display font-semibold">
           The kit
         </h1>
         <p className="mt-4 max-w-[54ch] text-body-lg text-muted">
@@ -33,11 +33,11 @@ export default function GearPage() {
           <GearSection key={group.category} group={group} />
         ))}
 
-        <p className="mt-10 max-w-[60ch] rounded-md bg-accent-subtle p-5 text-[0.9375rem] text-text">
-          <strong className="font-semibold">A note on links.</strong> You
-          won&rsquo;t find any here — no affiliate trackers, no referral codes.
-          I don&rsquo;t earn anything if you buy. Use what you have; the best
-          camera is the one you brought.
+        <p className="mt-10 max-w-[60ch] border border-border p-5 text-[0.875rem] text-muted">
+          <strong className="font-medium text-text">A note on links.</strong>{" "}
+          You won&rsquo;t find any here &mdash; no affiliate trackers, no referral
+          codes. I don&rsquo;t earn anything if you buy. Use what you have; the
+          best camera is the one you brought.
         </p>
       </Container>
     </div>

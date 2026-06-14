@@ -13,10 +13,6 @@ import windowLight from "@/public/images/gallery/window-light.jpg";
 import alpineLake from "@/public/images/gallery/alpine-lake.jpg";
 import duneGrass from "@/public/images/gallery/dune-grass.jpg";
 
-/**
- * Gallery taxonomy. "All" is a synthetic filter handled in the UI, so it is not
- * a category a photo can be tagged with.
- */
 export const GALLERY_CATEGORIES = [
   "Landscape",
   "Portrait",
@@ -28,25 +24,15 @@ export const GALLERY_CATEGORIES = [
 export type GalleryCategory = (typeof GALLERY_CATEGORIES)[number];
 
 export type GalleryImage = {
-  /** Stable id, also used as the lightbox key. */
   id: string;
   src: StaticImageData;
-  /** Descriptive alt text (never "image"). */
   alt: string;
-  /** Display title shown in captions. */
   title: string;
-  /** Categories this photo belongs to (used by the filter chips). */
   categories: GalleryCategory[];
-  /** Short location/date line shown in the caption. */
   meta: string;
-  /** Optional EXIF-style metadata shown in the lightbox caption. */
   exif?: string;
 };
 
-/**
- * The gallery manifest. To add a photo: drop a 4:5 JPEG into
- * `public/images/gallery/` and add one entry here. Nothing else to wire.
- */
 export const galleryImages: GalleryImage[] = [
   {
     id: "ridgeline",
@@ -158,7 +144,43 @@ export const galleryImages: GalleryImage[] = [
   },
 ];
 
-/** First N images, for the home "selected work" preview strip. */
 export function getFeaturedImages(count = 6): GalleryImage[] {
   return galleryImages.slice(0, count);
+}
+
+export function categoryToSlug(category: GalleryCategory): string {
+  return category
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function getCategoryFromSlug(slug: string): GalleryCategory | undefined {
+  return GALLERY_CATEGORIES.find((cat) => categoryToSlug(cat) === slug);
+}
+
+export function getImagesByCategory(category: GalleryCategory): GalleryImage[] {
+  return galleryImages.filter((img) => img.categories.includes(category));
+}
+
+export type ProjectCategory = {
+  category: GalleryCategory;
+  slug: string;
+  count: number;
+  cover: GalleryImage;
+};
+
+export function getProjectCategories(): ProjectCategory[] {
+  return GALLERY_CATEGORIES.flatMap((cat) => {
+    const photos = galleryImages.filter((img) => img.categories.includes(cat));
+    if (photos.length === 0) return [];
+    return [
+      {
+        category: cat,
+        slug: categoryToSlug(cat),
+        count: photos.length,
+        cover: photos[0],
+      },
+    ];
+  });
 }

@@ -12,61 +12,63 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="pt-[72px]">
+    <div className="pt-14">
       <Container>
-        <div className="grid gap-12 pb-20 pt-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div className="grid gap-12 pb-20 pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <aside>
-            <p className="text-eyebrow font-medium uppercase tracking-[0.14em] text-accent">
+            <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
               Contact
             </p>
-            <h1 className="mt-2 font-display text-display font-semibold">
+            <h1 className="mt-4 font-display text-display font-semibold">
               Let&rsquo;s make something.
             </h1>
             <p className="mt-4 max-w-[42ch] text-body-lg text-muted">
-              Commissions, prints, editorial assignments, or just to say hello —
-              tell me a little about what you have in mind and I&rsquo;ll reply
-              within a couple of days.
+              Commissions, prints, editorial assignments, or just to say hello
+              &mdash; tell me a little about what you have in mind and
+              I&rsquo;ll reply within a couple of days.
             </p>
 
             <div className="mt-8 grid gap-4">
-              <div className="flex items-center gap-3 text-muted">
+              <div className="flex items-center gap-3">
                 <Mail
-                  size={18}
-                  strokeWidth={1.75}
-                  className="flex-none text-accent"
+                  size={16}
+                  strokeWidth={1.5}
+                  className="flex-none text-muted"
                   aria-hidden="true"
                 />
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="text-text transition-colors hover:text-accent"
+                  className="text-[0.875rem] text-text transition-colors hover:text-muted"
                 >
                   {siteConfig.email}
                 </a>
               </div>
-              <div className="flex items-center gap-3 text-muted">
+              <div className="flex items-center gap-3">
                 <AtSign
-                  size={18}
-                  strokeWidth={1.75}
-                  className="flex-none text-accent"
+                  size={16}
+                  strokeWidth={1.5}
+                  className="flex-none text-muted"
                   aria-hidden="true"
                 />
                 <a
                   href={siteConfig.socials.instagram.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-text transition-colors hover:text-accent"
+                  className="text-[0.875rem] text-text transition-colors hover:text-muted"
                 >
                   {siteConfig.socials.instagram.label}
                 </a>
               </div>
-              <div className="flex items-center gap-3 text-muted">
+              <div className="flex items-center gap-3">
                 <MapPin
-                  size={18}
-                  strokeWidth={1.75}
-                  className="flex-none text-accent"
+                  size={16}
+                  strokeWidth={1.5}
+                  className="flex-none text-muted"
                   aria-hidden="true"
                 />
-                <span>{siteConfig.location} · shooting worldwide</span>
+                <span className="text-[0.875rem] text-muted">
+                  {siteConfig.location} &middot; shooting worldwide
+                </span>
               </div>
             </div>
           </aside>
