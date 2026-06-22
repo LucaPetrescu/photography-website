@@ -14,7 +14,7 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://*.s3.eu-central-003.backblazeb2.com",
   "font-src 'self' data:",
   "connect-src 'self'",
   "object-src 'none'",
@@ -36,8 +36,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  // Pin the workspace root to this project (a stray lockfile higher up the tree
-  // otherwise makes Next infer the wrong root).
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.s3.eu-central-003.backblazeb2.com",
+      },
+    ],
+  },
   turbopack: {
     root: __dirname,
   },

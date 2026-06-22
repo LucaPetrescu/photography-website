@@ -6,7 +6,7 @@ import { getGearGroups } from "@/lib/gear";
 export const metadata: Metadata = {
   title: "Gear I Use",
   description:
-    "The camera body and lenses Luca Petrescu carries into the field — a Nikon D750 with three Tamron and Nikkor lenses.",
+    "The camera body and lenses Luca Petrescu carries into the field — a Nikon D750 with two Tamron and Nikkor lenses.",
 };
 
 export default function GearPage() {
@@ -35,9 +35,9 @@ export default function GearPage() {
 
         <p className="mt-10 max-w-[60ch] border border-border p-5 text-[0.875rem] text-muted">
           <strong className="font-medium text-text">A note on links.</strong>{" "}
-          You won&rsquo;t find any here &mdash; no affiliate trackers, no referral
-          codes. I don&rsquo;t earn anything if you buy. Use what you have; the
-          best camera is the one you brought.
+          You won&rsquo;t find any here &mdash; no affiliate trackers, no
+          referral codes. I don&rsquo;t earn anything if you buy. Use what you
+          have; the best camera is the one you brought.
         </p>
       </Container>
     </div>

@@ -14,7 +14,7 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://lucapetrescu.com",
   nav: [
     { label: "Overview", href: "/" },
-    { label: "Projects", href: "/projects" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Info", href: "/info" },
     { label: "Gear I Use", href: "/gear" },
     { label: "Contact", href: "/contact" },
