@@ -1,37 +1,38 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {
-  getProjectCategories,
-  getCategoryFromSlug,
-  getImagesByCategory,
-} from "@/lib/gallery";
+import { listPhotos, type B2Folder } from "@/lib/B2bucket";
 import { Container } from "@/components/ui/Container";
-import { PhotoWallClient } from "@/components/gallery/PhotoWallClient";
+import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
+
+const B2_FOLDERS: Record<string, { label: string; folder: B2Folder }> = {
+  people: { label: "People", folder: "people" },
+  studio: { label: "Studio", folder: "studio" },
+};
 
 type Props = {
   params: Promise<{ category: string }>;
 };
 
-export async function generateStaticParams() {
-  return getProjectCategories().map((p) => ({ category: p.slug }));
+export function generateStaticParams() {
+  return Object.keys(B2_FOLDERS).map((category) => ({ category }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { category: slug } = await params;
-  const cat = getCategoryFromSlug(slug);
-  if (!cat) return {};
+  const { category } = await params;
+  const series = B2_FOLDERS[category];
+  if (!series) return {};
   return {
-    title: cat,
-    description: `${cat} photography by Luca Petrescu.`,
+    title: series.label,
+    description: `${series.label} photography by Luca Petrescu.`,
   };
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { category: slug } = await params;
-  const cat = getCategoryFromSlug(slug);
-  if (!cat) notFound();
+  const { category } = await params;
+  const series = B2_FOLDERS[category];
+  if (!series) notFound();
 
-  const images = getImagesByCategory(cat);
+  const urls = await listPhotos(series.folder);
 
   return (
     <main id="main" className="pt-14">
@@ -39,15 +40,16 @@ export default async function CategoryPage({ params }: Props) {
         <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
           Gallery
         </p>
-        <h1 className="mt-4 font-display text-display font-semibold">{cat}</h1>
+        <h1 className="mt-4 font-display text-display font-semibold">
+          {series.label}
+        </h1>
         <p className="mt-2 text-[0.8125rem] text-muted">
-          {images.length}&nbsp;
-          {images.length === 1 ? "photograph" : "photographs"}
+          {urls.length}&nbsp;{urls.length === 1 ? "photograph" : "photographs"}
         </p>
       </Container>
 
       <div className="px-4 pb-16 pt-6 md:px-8">
-        <PhotoWallClient images={images} />
+        <B2PhotoWall urls={urls} />
       </div>
     </main>
   );

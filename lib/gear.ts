@@ -1,10 +1,5 @@
 import type { StaticImageData } from "next/image";
 
-import nikonD750 from "@/public/images/gear/nikon-d750.jpg";
-import tamron2470 from "@/public/images/gear/tamron-24-70.jpg";
-import tamron70200 from "@/public/images/gear/tamron-70-200.jpg";
-import nikkor50 from "@/public/images/gear/nikkor-50mm.jpg";
-
 export type GearItem = {
   name: string;
   category: string;
@@ -13,6 +8,15 @@ export type GearItem = {
   image: StaticImageData;
   /** Optional EXIF-style spec rows (label/value), rendered in mono. */
   specs?: { label: string; value: string }[];
+};
+
+/** Temporary placeholder until real gear photos are wired up (B2 bucket). */
+const PLACEHOLDER: StaticImageData = {
+  src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Crect width='100%25' height='100%25' fill='%23e5e5e5'/%3E%3C/svg%3E",
+  width: 1200,
+  height: 800,
+  blurDataURL:
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Crect width='100%25' height='100%25' fill='%23d4d4d4'/%3E%3C/svg%3E",
 };
 
 /**
@@ -26,7 +30,7 @@ export const gearItems: GearItem[] = [
     category: "Camera Body",
     description:
       "My everyday body. The full-frame sensor holds shadow detail beautifully at dawn, and the weather sealing has survived a lot of coastal drizzle.",
-    image: nikonD750,
+    image: PLACEHOLDER,
     specs: [
       { label: "Sensor", value: "24MP full-frame" },
       { label: "Weight", value: "750 g" },
@@ -37,7 +41,7 @@ export const gearItems: GearItem[] = [
     category: "Lenses",
     description:
       "My most-used lens by far. Wide enough for big landscapes, long enough for tighter compositions — the one that stays mounted most days.",
-    image: tamron2470,
+    image: PLACEHOLDER,
     specs: [
       { label: "Focal", value: "24-70mm" },
       { label: "Aperture", value: "f/2.8" },
@@ -48,7 +52,7 @@ export const gearItems: GearItem[] = [
     category: "Lenses",
     description:
       "For compressing ridgelines and reaching distant weather. Heavy, but the reach and sharpness earn their place in the bag.",
-    image: tamron70200,
+    image: PLACEHOLDER,
     specs: [
       { label: "Focal", value: "70-200mm" },
       { label: "Aperture", value: "f/2.8" },
@@ -59,7 +63,7 @@ export const gearItems: GearItem[] = [
     category: "Lenses",
     description:
       "Light, sharp, and kind to faces. The prime I reach for with portraits when I want a quiet background and a natural field of view.",
-    image: nikkor50,
+    image: PLACEHOLDER,
     specs: [
       { label: "Focal", value: "50mm" },
       { label: "Aperture", value: "f/1.8" },
