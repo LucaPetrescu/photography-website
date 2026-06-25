@@ -51,12 +51,12 @@ export default async function GalleryPage() {
                 className="group block"
                 aria-label={`View ${s.label} — ${s.count} photograph${s.count === 1 ? "" : "s"}`}
               >
-                <div className="overflow-hidden bg-surface-muted">
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={s.cover}
                     alt={`${s.label} series cover`}
-                    style={{ width: "100%", height: "auto", display: "block" }}
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                     className="transition-opacity duration-[var(--dur-base)] group-hover:opacity-85"
                   />
                 </div>
