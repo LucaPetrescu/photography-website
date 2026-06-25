@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { listPhotos } from "@/lib/B2bucket";
+import { listPhotos } from "@/lib/B2Bucket";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -18,8 +18,18 @@ export default async function GalleryPage() {
   ]);
 
   const series = [
-    { slug: "people", label: "People", cover: peopleUrls[0], count: peopleUrls.length },
-    { slug: "studio", label: "Studio", cover: studioUrls[0], count: studioUrls.length },
+    {
+      slug: "people",
+      label: "People",
+      cover: peopleUrls[0],
+      count: peopleUrls.length,
+    },
+    {
+      slug: "studio",
+      label: "Studio",
+      cover: studioUrls[0],
+      count: studioUrls.length,
+    },
   ].filter((s) => s.cover);
 
   return (

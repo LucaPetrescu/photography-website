@@ -5,28 +5,49 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const bucketName = process.env.BUCKET;
-const region = process.env.REGION;
+function getS3(): { client: S3Client; bucket: string | undefined } {
+  const region = process.env.REGION;
+  const bucket = process.env.BUCKET;
 
-const s3 = new S3Client({
-  region: region,
-  endpoint: `https://s3.${region}.backblazeb2.com`,
-  credentials: {
-    accessKeyId: process.env.B2_KEY_ID!,
-    secretAccessKey: process.env.B2_APP_KEY!,
-  },
-});
+  try {
+    if (!region) throw new Error("Missing env var: REGION");
+    if (!bucket) throw new Error("Missing env var: BUCKET");
+  } catch (error) {
+    console.log(error);
+  }
 
-export type B2Folder = "people" | "studio";
+  return {
+    client: new S3Client({
+      region,
+      endpoint: `https://s3.${region}.backblazeb2.com`,
+      credentials: {
+        accessKeyId: process.env.B2_KEY_ID!,
+        secretAccessKey: process.env.B2_APP_KEY!,
+      },
+    }),
+    bucket,
+  };
+}
+
+export async function listFolders(): Promise<string[]> {
+  const { client, bucket } = getS3();
+  const res = await client.send(
+    new ListObjectsV2Command({ Bucket: bucket, Delimiter: "/" }),
+  );
+  return (res.CommonPrefixes ?? [])
+    .map((p: { Prefix?: string }) => p.Prefix)
+    .filter(Boolean) as string[];
+}
 
 async function listKeys(prefix?: string): Promise<string[]> {
+  const { client, bucket } = getS3();
   const keys: string[] = [];
   let token: string | undefined;
 
   do {
-    const res = await s3.send(
+    const res = await client.send(
       new ListObjectsV2Command({
-        Bucket: bucketName,
+        Bucket: bucket,
         Prefix: prefix,
         ContinuationToken: token,
       }),
@@ -42,12 +63,28 @@ async function listKeys(prefix?: string): Promise<string[]> {
   return keys;
 }
 
-// Signed URLs expire after 1 hour — suitable for SSR, not static export.
-export async function listPhotos(folder: B2Folder, expiresIn = 3600): Promise<string[]> {
-  const keys = await listKeys(`${folder}/`);
+function signKeys(keys: string[], expiresIn: number): Promise<string[]> {
+  const { client, bucket } = getS3();
   return Promise.all(
     keys.map((key) =>
-      getSignedUrl(s3, new GetObjectCommand({ Bucket: bucketName!, Key: key }), { expiresIn })
-    )
+      getSignedUrl(client, new GetObjectCommand({ Bucket: bucket, Key: key }), {
+        expiresIn,
+      }),
+    ),
   );
+}
+
+// Signed URLs expire after 1 hour — suitable for SSR, not static export.
+export async function listPhotos(
+  folder: string,
+  expiresIn = 3600,
+): Promise<string[]> {
+  const keys = await listKeys(`${folder}/`);
+  return signKeys(keys, expiresIn);
+}
+
+export async function listAllPhotos(expiresIn = 3600): Promise<string[]> {
+  const folders = await listFolders();
+  const keyGroups = await Promise.all(folders.map((f) => listKeys(f)));
+  return signKeys(keyGroups.flat(), expiresIn);
 }

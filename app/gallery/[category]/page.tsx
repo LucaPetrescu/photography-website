@@ -1,38 +1,42 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { listPhotos, type B2Folder } from "@/lib/B2bucket";
+import { listFolders, listPhotos } from "@/lib/B2Bucket";
 import { Container } from "@/components/ui/Container";
 import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
-
-const B2_FOLDERS: Record<string, { label: string; folder: B2Folder }> = {
-  people: { label: "People", folder: "people" },
-  studio: { label: "Studio", folder: "studio" },
-};
 
 type Props = {
   params: Promise<{ category: string }>;
 };
 
-export function generateStaticParams() {
-  return Object.keys(B2_FOLDERS).map((category) => ({ category }));
+function folderToLabel(folder: string): string {
+  return folder
+    .replace(/\/$/, "")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export async function generateStaticParams() {
+  const folders = await listFolders();
+  return folders.map((f: string) => ({ category: f.replace(/\/$/, "") }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
-  const series = B2_FOLDERS[category];
-  if (!series) return {};
+  const label = folderToLabel(category);
   return {
-    title: series.label,
-    description: `${series.label} photography by Luca Petrescu.`,
+    title: label,
+    description: `${label} photography by Luca Petrescu.`,
   };
 }
 
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
-  const series = B2_FOLDERS[category];
-  if (!series) notFound();
+  const folders = await listFolders();
+  const match = folders.find((f: string) => f.replace(/\/$/, "") === category);
+  if (!match) notFound();
 
-  const urls = await listPhotos(series.folder);
+  const urls = await listPhotos(category);
+  const label = folderToLabel(category);
 
   return (
     <main id="main" className="pt-14">
@@ -41,7 +45,7 @@ export default async function CategoryPage({ params }: Props) {
           Gallery
         </p>
         <h1 className="mt-4 font-display text-display font-semibold">
-          {series.label}
+          {label}
         </h1>
         <p className="mt-2 text-[0.8125rem] text-muted">
           {urls.length}&nbsp;{urls.length === 1 ? "photograph" : "photographs"}

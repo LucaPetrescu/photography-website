@@ -15,7 +15,7 @@ export const siteConfig = {
   nav: [
     { label: "Overview", href: "/" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Info", href: "/info" },
+    { label: "About Me", href: "/about" },
     { label: "Gear I Use", href: "/gear" },
     { label: "Contact", href: "/contact" },
   ] satisfies NavItem[],

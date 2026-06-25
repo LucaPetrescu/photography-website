@@ -20,23 +20,11 @@ export type GalleryImage = {
 
 export const galleryImages: GalleryImage[] = [];
 
-export function getFeaturedImages(count = 6): GalleryImage[] {
-  return galleryImages.slice(0, count);
-}
-
 export function categoryToSlug(category: GalleryCategory): string {
   return category
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
-}
-
-export function getCategoryFromSlug(slug: string): GalleryCategory | undefined {
-  return GALLERY_CATEGORIES.find((cat) => categoryToSlug(cat) === slug);
-}
-
-export function getImagesByCategory(category: GalleryCategory): GalleryImage[] {
-  return galleryImages.filter((img) => img.categories.includes(category));
 }
 
 export type ProjectCategory = {
