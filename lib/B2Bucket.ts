@@ -63,28 +63,18 @@ async function listKeys(prefix?: string): Promise<string[]> {
   return keys;
 }
 
-function signKeys(keys: string[], expiresIn: number): Promise<string[]> {
-  const { client, bucket } = getS3();
-  return Promise.all(
-    keys.map((key) =>
-      getSignedUrl(client, new GetObjectCommand({ Bucket: bucket, Key: key }), {
-        expiresIn,
-      }),
-    ),
-  );
+function toProxyUrls(keys: string[]) {
+  return keys.map((key) => `/api/photo?key=${encodeURIComponent(key)}`);
 }
 
 // Signed URLs expire after 1 hour — suitable for SSR, not static export.
-export async function listPhotos(
-  folder: string,
-  expiresIn = 3600,
-): Promise<string[]> {
+export async function listPhotos(folder: string): Promise<string[]> {
   const keys = await listKeys(`${folder}/`);
-  return signKeys(keys, expiresIn);
+  return toProxyUrls(keys);
 }
 
-export async function listAllPhotos(expiresIn = 3600): Promise<string[]> {
+export async function listAllPhotos(): Promise<string[]> {
   const folders = await listFolders();
   const keyGroups = await Promise.all(folders.map((f) => listKeys(f)));
-  return signKeys(keyGroups.flat(), expiresIn);
+  return toProxyUrls(keyGroups.flat());
 }
