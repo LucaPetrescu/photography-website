@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { galleryImages } from "@/lib/gallery";
-import { PhotoWallClient } from "@/components/gallery/PhotoWallClient";
+import { listAllPhotos } from "@/lib/B2Bucket";
+import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -10,16 +10,18 @@ export const metadata: Metadata = {
   description: siteConfig.tagline,
 };
 
-export default function OverviewPage() {
+export default async function OverviewPage() {
+  const urls = await listAllPhotos();
+
   return (
     <main id="main" className="pt-14">
       <div className="px-4 pb-5 pt-8 md:px-8">
         <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
-          Overview — {galleryImages.length} photographs
+          Overview — {urls.length} photographs
         </p>
       </div>
       <div className="px-4 pb-16 md:px-8">
-        <PhotoWallClient images={galleryImages} />
+        <B2PhotoWall urls={urls} />
       </div>
     </main>
   );

@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const categoryPages = getProjectCategories().map((p) => ({
-    url: new URL(`/projects/${p.slug}`, base).toString(),
+    url: new URL(`/gallery/${p.slug}`, base).toString(),
     lastModified: now,
     changeFrequency: "yearly" as const,
     priority: 0.7,

@@ -14,8 +14,8 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://lucapetrescu.com",
   nav: [
     { label: "Overview", href: "/" },
-    { label: "Projects", href: "/projects" },
-    { label: "Info", href: "/info" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "About Me", href: "/about" },
     { label: "Gear I Use", href: "/gear" },
     { label: "Contact", href: "/contact" },
   ] satisfies NavItem[],
