@@ -16,39 +16,39 @@ const ANNOTATIONS: Annotation[] = [
     id: "body",
     num: 1,
     x: 50,
-    y: 12,
+    y: 9,
     label: "Magnesium alloy body",
     description: "Weather- and dust-sealed, 840 g with battery",
   },
   {
     id: "mount",
     num: 2,
-    x: 41,
-    y: 54,
+    x: 45,
+    y: 57,
     label: "Nikon F-mount",
     description: "58 mm bayonet — fits all Nikon F lenses since 1959",
   },
   {
     id: "grip",
     num: 3,
-    x: 80,
-    y: 53,
+    x: 18,
+    y: 58,
     label: "Rubberised grip",
     description: "Deep contoured grip for one-hand control",
   },
   {
     id: "af-lamp",
     num: 4,
-    x: 27,
-    y: 67,
+    x: 64,
+    y: 71,
     label: "AF-assist lamp",
     description: "Fires in low-light to aid phase-detect autofocus",
   },
   {
     id: "strap",
     num: 5,
-    x: 11,
-    y: 30,
+    x: 12,
+    y: 22,
     label: "Strap lug",
     description: "Triangular attachment point for camera straps",
   },
@@ -71,7 +71,7 @@ export function CameraAnnotationCard() {
         <div className="relative select-none overflow-visible">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/gear/nikon-d750.jpg"
+            src="/images/NikonD750.png"
             alt="Nikon D750 camera, front view"
             className="block w-full"
             draggable={false}

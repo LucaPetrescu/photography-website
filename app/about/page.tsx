@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import portrait from "@/public/images/about/portrait.jpg";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -40,7 +39,7 @@ export default function AboutPage() {
           <Reveal className="lg:sticky lg:top-[80px]">
             <div className="overflow-hidden bg-surface-muted">
               <Image
-                src={portrait}
+                src=""
                 alt="Portrait of Luca Petrescu outdoors in soft natural light."
                 placeholder="blur"
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -53,10 +52,10 @@ export default function AboutPage() {
             <div className="[&_p]:mb-5 [&_p]:max-w-[var(--container-prose)] [&_p]:leading-[1.7]">
               <p className="text-body-lg">
                 I came to photography late, and sideways. For years I was a
-                hydrologist measuring snowpack in the Cascades &mdash; which mostly
-                meant being outdoors at dawn in places few people see. I started
-                carrying a camera to remember them, and somewhere along the way
-                the remembering became the work.
+                hydrologist measuring snowpack in the Cascades &mdash; which
+                mostly meant being outdoors at dawn in places few people see. I
+                started carrying a camera to remember them, and somewhere along
+                the way the remembering became the work.
               </p>
               <p>
                 My pictures are quiet on purpose. I&rsquo;m not chasing the
@@ -78,12 +77,12 @@ export default function AboutPage() {
                 Small kit, long days, real weather. I work primarily in natural
                 light, print everything I&rsquo;m proud of, and treat editing as
                 restraint rather than reinvention. For portraits I like to walk
-                and talk first and photograph second &mdash; the good frames tend to
-                arrive once people forget the camera is there.
+                and talk first and photograph second &mdash; the good frames
+                tend to arrive once people forget the camera is there.
               </p>
               <p>
-                I take on a handful of commissions a year &mdash; editorial, fine-art
-                commissions, and the occasional wedding for people who
+                I take on a handful of commissions a year &mdash; editorial,
+                fine-art commissions, and the occasional wedding for people who
                 don&rsquo;t mind a 4&nbsp;a.m. call time. If that sounds like
                 you, I&rsquo;d love to hear from you.
               </p>
