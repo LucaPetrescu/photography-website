@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -37,15 +36,10 @@ export default function AboutPage() {
       <Container as="section" className="pb-16 pt-8 md:pb-24">
         <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <Reveal className="lg:sticky lg:top-[80px]">
-            <div className="overflow-hidden bg-surface-muted">
-              <Image
-                src=""
-                alt="Portrait of Luca Petrescu outdoors in soft natural light."
-                placeholder="blur"
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </div>
+            <div
+              className="bg-surface-muted"
+              style={{ aspectRatio: "3 / 4" }}
+            />
           </Reveal>
 
           <Reveal>
