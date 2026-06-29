@@ -17,7 +17,7 @@ export default async function OverviewPage() {
     <main id="main" className="pt-14">
       <div className="px-4 pb-5 pt-8 md:px-8">
         <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
-          Overview — {urls.length} photographs
+          Overview
         </p>
       </div>
       <div className="px-4 pb-16 md:px-8">

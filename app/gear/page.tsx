@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { GearSection } from "@/components/gear/GearSection";
 import { CameraAnnotationCard } from "@/components/gear/CameraAnnotationCard";
+import { Reveal } from "@/components/ui/Reveal";
 import { getGearGroups } from "@/lib/gear";
 
 export const metadata: Metadata = {
@@ -30,7 +31,9 @@ export default function GearPage() {
       </Container>
 
       <Container className="pb-16 md:pb-24">
-        <CameraAnnotationCard />
+        <Reveal>
+          <CameraAnnotationCard />
+        </Reveal>
 
         {groups.map((group) => (
           <GearSection key={group.category} group={group} />
