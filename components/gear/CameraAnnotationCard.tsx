@@ -5,8 +5,8 @@ import { useState } from "react";
 type Annotation = {
   id: string;
   num: number;
-  x: number; // % from image left
-  y: number; // % from image top
+  x: number;
+  y: number;
   label: string;
   description: string;
 };
@@ -16,14 +16,14 @@ const ANNOTATIONS: Annotation[] = [
     id: "body",
     num: 1,
     x: 50,
-    y: 9,
+    y: 35,
     label: "Magnesium alloy body",
     description: "Weather- and dust-sealed, 840 g with battery",
   },
   {
     id: "mount",
     num: 2,
-    x: 45,
+    x: 55,
     y: 57,
     label: "Nikon F-mount",
     description: "58 mm bayonet — fits all Nikon F lenses since 1959",
@@ -31,24 +31,24 @@ const ANNOTATIONS: Annotation[] = [
   {
     id: "grip",
     num: 3,
-    x: 18,
-    y: 58,
+    x: 30,
+    y: 65,
     label: "Rubberised grip",
     description: "Deep contoured grip for one-hand control",
   },
   {
     id: "af-lamp",
     num: 4,
-    x: 64,
-    y: 71,
+    x: 40,
+    y: 40,
     label: "AF-assist lamp",
     description: "Fires in low-light to aid phase-detect autofocus",
   },
   {
     id: "strap",
     num: 5,
-    x: 12,
-    y: 22,
+    x: 20,
+    y: 50,
     label: "Strap lug",
     description: "Triangular attachment point for camera straps",
   },
@@ -61,11 +61,13 @@ export function CameraAnnotationCard() {
     <div className="mb-10 border-t border-border pt-7">
       <div className="mb-6 flex items-baseline gap-4">
         <h2 className="font-display text-h2 font-semibold">Nikon D750</h2>
-        <span className="font-mono text-mono text-muted">Full-frame DSLR · 2014</span>
+        <span className="font-mono text-mono text-muted">
+          Full-frame DSLR · 2014
+        </span>
       </div>
 
       <div
-        className="relative w-full max-w-xl"
+        className="relative mx-auto w-full max-w-2xl"
         onMouseLeave={() => setHovered(null)}
       >
         <div className="relative select-none overflow-visible">

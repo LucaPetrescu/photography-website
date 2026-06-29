@@ -1,44 +1,66 @@
 import Image from "next/image";
 import type { GearItem } from "@/lib/gear";
 
-/** A single piece of gear: image, category label, name, description. No links. */
-export function GearCard({ item }: { item: GearItem }) {
+export function GearCard({ item, index }: { item: GearItem; index: number }) {
+  const flip = index % 2 !== 0;
+  const num = String(index + 1).padStart(2, "0");
+
   return (
-    <article className="group flex flex-col">
-      <div className="mb-5 aspect-[3/2] overflow-hidden rounded-md bg-surface-muted">
+    <div
+      className={`flex flex-col border-t border-border md:flex-row ${flip ? "md:flex-row-reverse" : ""}`}
+    >
+      {/* Image */}
+      <div
+        className="relative w-full flex-none bg-surface md:w-[55%]"
+        style={{ minHeight: "340px" }}
+      >
         <Image
           src={item.image}
-          alt={`${item.name} — ${item.category}`}
+          alt={item.name}
           placeholder="blur"
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="h-full w-full object-cover transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-hover:scale-[1.03]"
+          fill
+          sizes="(min-width: 768px) 55vw, 100vw"
+          className="object-contain"
         />
       </div>
 
-      <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
-        {item.category}
-      </span>
-      <h3 className="mt-1 font-display text-h3 font-medium">{item.name}</h3>
+      {/* Content */}
+      <div className="flex flex-1 flex-col justify-between px-8 py-10 md:px-12 md:py-14">
+        <div>
+          <span
+            aria-hidden="true"
+            className="block select-none font-display font-semibold leading-none text-border"
+            style={{ fontSize: "clamp(3.5rem, 6vw, 5.5rem)" }}
+          >
+            {num}
+          </span>
+          <p className="mt-5 font-mono text-mono text-muted">
+            {item.category}
+          </p>
+          <h3 className="mt-1.5 font-display text-h1 font-semibold leading-tight">
+            {item.name}
+          </h3>
+          {item.description && (
+            <p className="mt-5 max-w-[36ch] text-[0.9375rem] leading-relaxed text-muted">
+              {item.description}
+            </p>
+          )}
+        </div>
 
-      {item.description ? (
-        <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">
-          {item.description}
-        </p>
-      ) : null}
-
-      {item.specs && item.specs.length > 0 ? (
-        <ul className="mt-4 grid gap-1.5 border-t border-border pt-4">
-          {item.specs.map((spec) => (
-            <li
-              key={spec.label}
-              className="flex justify-between gap-4 font-mono text-mono"
-            >
-              <span className="text-muted">{spec.label}</span>
-              <span>{spec.value}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </article>
+        {item.specs && item.specs.length > 0 && (
+          <dl className="mt-10 border-t border-border pt-5">
+            {item.specs.map((spec) => (
+              <div
+                key={spec.label}
+                className="flex justify-between border-b border-border py-2.5 font-mono text-mono"
+              >
+                <dt className="text-muted">{spec.label}</dt>
+                <dd>{spec.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+    </div>
   );
 }
