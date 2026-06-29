@@ -3,7 +3,6 @@ import {
   ListObjectsV2Command,
   GetObjectCommand,
 } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 function getS3(): { client: S3Client; bucket: string | undefined } {
   const region = process.env.REGION;

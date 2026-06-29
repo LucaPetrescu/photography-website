@@ -32,8 +32,8 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          REGION: ${{ secrets.REGION }}
-          BUCKET: ${{ secrets.BUCKET }}
+          REGION: ${{ vars.REGION }}
+          BUCKET: ${{ vars.BUCKET }}
           B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
           B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
 
