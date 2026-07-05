@@ -1,19 +1,15 @@
-import {
-  S3Client,
-  ListObjectsV2Command,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
+import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
-function getS3(): { client: S3Client; bucket: string | undefined } {
+function getS3(): {
+  client: S3Client;
+  bucket: string;
+  region: string;
+} {
   const region = process.env.REGION;
   const bucket = process.env.BUCKET;
 
-  try {
-    if (!region) throw new Error("Missing env var: REGION");
-    if (!bucket) throw new Error("Missing env var: BUCKET");
-  } catch (error) {
-    console.log(error);
-  }
+  if (!region) throw new Error("Missing env var: REGION");
+  if (!bucket) throw new Error("Missing env var: BUCKET");
 
   return {
     client: new S3Client({
@@ -25,6 +21,7 @@ function getS3(): { client: S3Client; bucket: string | undefined } {
       },
     }),
     bucket,
+    region,
   };
 }
 
@@ -38,8 +35,10 @@ export async function listFolders(): Promise<string[]> {
     .filter(Boolean) as string[];
 }
 
-async function listKeys(prefix?: string): Promise<string[]> {
-  const { client, bucket } = getS3();
+async function listKeys(
+  prefix?: string,
+): Promise<{ keys: string[]; bucket: string; region: string }> {
+  const { client, bucket, region } = getS3();
   const keys: string[] = [];
   let token: string | undefined;
 
@@ -59,21 +58,28 @@ async function listKeys(prefix?: string): Promise<string[]> {
     token = res.IsTruncated ? res.NextContinuationToken : undefined;
   } while (token);
 
-  return keys;
+  return { keys, bucket, region };
 }
 
-function toProxyUrls(keys: string[]) {
-  return keys.map((key) => `/api/photo?key=${encodeURIComponent(key)}`);
+// Bucket must be set to public-read in the B2 dashboard for these URLs to resolve.
+function toPublicUrls(keys: string[], bucket: string, region: string) {
+  return keys.map(
+    (key) => `https://s3.${region}.backblazeb2.com/${bucket}/${key}`,
+  );
 }
 
-// Signed URLs expire after 1 hour — suitable for SSR, not static export.
 export async function listPhotos(folder: string): Promise<string[]> {
-  const keys = await listKeys(`${folder}/`);
-  return toProxyUrls(keys);
+  const { keys, bucket, region } = await listKeys(`${folder}/`);
+  return toPublicUrls(keys, bucket, region);
 }
 
 export async function listAllPhotos(): Promise<string[]> {
   const folders = await listFolders();
   const keyGroups = await Promise.all(folders.map((f) => listKeys(f)));
-  return toProxyUrls(keyGroups.flat());
+  const { bucket, region } = keyGroups[0] ?? getS3();
+  return toPublicUrls(
+    keyGroups.flatMap((g) => g.keys),
+    bucket,
+    region,
+  );
 }
