@@ -3,27 +3,29 @@
 import { useCallback, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import type { Photo } from "@/lib/B2Bucket";
 
 type B2LightboxProps = {
-  urls: string[];
+  photos: Photo[];
   index: number | null;
   onClose: () => void;
   onNavigate: (next: number) => void;
 };
 
-export function B2Lightbox({ urls, index, onClose, onNavigate }: B2LightboxProps) {
+export function B2Lightbox({ photos, index, onClose, onNavigate }: B2LightboxProps) {
   const open = index !== null;
-  const url = index !== null ? urls[index] : null;
+  const photo = index !== null ? photos[index] : null;
 
   const goPrev = useCallback(() => {
     if (index === null) return;
-    onNavigate((index - 1 + urls.length) % urls.length);
-  }, [index, urls.length, onNavigate]);
+    onNavigate((index - 1 + photos.length) % photos.length);
+  }, [index, photos.length, onNavigate]);
 
   const goNext = useCallback(() => {
     if (index === null) return;
-    onNavigate((index + 1) % urls.length);
-  }, [index, urls.length, onNavigate]);
+    onNavigate((index + 1) % photos.length);
+  }, [index, photos.length, onNavigate]);
 
   useEffect(() => {
     if (!open) return;
@@ -46,7 +48,7 @@ export function B2Lightbox({ urls, index, onClose, onNavigate }: B2LightboxProps
           onOpenAutoFocus={(e) => { e.preventDefault(); (e.currentTarget as HTMLElement).focus(); }}
           tabIndex={-1}
         >
-          {url && index !== null ? (
+          {photo && index !== null ? (
             <>
               <Dialog.Title className="sr-only">Photograph {index + 1}</Dialog.Title>
               <Dialog.Description className="sr-only">Full-size photograph</Dialog.Description>
@@ -58,7 +60,7 @@ export function B2Lightbox({ urls, index, onClose, onNavigate }: B2LightboxProps
                 <X size={22} strokeWidth={2} aria-hidden="true" />
               </Dialog.Close>
 
-              {urls.length > 1 && (
+              {photos.length > 1 && (
                 <>
                   <button
                     type="button"
@@ -80,10 +82,13 @@ export function B2Lightbox({ urls, index, onClose, onNavigate }: B2LightboxProps
               )}
 
               <figure className="flex max-w-[92vw] flex-col items-center gap-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={url}
+                <Image
+                  src={photo.url}
                   alt={`Photograph ${index + 1}`}
+                  width={photo.width}
+                  height={photo.height}
+                  sizes="92vw"
+                  priority
                   className="max-h-[80vh] w-auto rounded-lg object-contain shadow-[var(--shadow-lg)]"
                 />
               </figure>
@@ -92,7 +97,7 @@ export function B2Lightbox({ urls, index, onClose, onNavigate }: B2LightboxProps
                 aria-hidden="true"
                 className="fixed bottom-5 left-1/2 -translate-x-1/2 font-mono text-mono text-white/70"
               >
-                {String(index + 1).padStart(2, "0")} / {String(urls.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
               </span>
             </>
           ) : null}

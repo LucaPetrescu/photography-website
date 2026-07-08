@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { listPhotos } from "@/lib/B2Bucket";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+
+// Signed B2 URLs expire after 1hr — regenerate the page well before that.
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -11,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const [peopleUrls, studioUrls] = await Promise.all([
+  const [peoplePhotos, studioPhotos] = await Promise.all([
     listPhotos("people"),
     listPhotos("studio"),
   ]);
@@ -20,14 +24,14 @@ export default async function GalleryPage() {
     {
       slug: "people",
       label: "People",
-      cover: peopleUrls[0],
-      count: peopleUrls.length,
+      cover: peoplePhotos[0],
+      count: peoplePhotos.length,
     },
     {
       slug: "studio",
       label: "Studio",
-      cover: studioUrls[0],
-      count: studioUrls.length,
+      cover: studioPhotos[0],
+      count: studioPhotos.length,
     },
   ].filter((s) => s.cover);
 
@@ -52,11 +56,12 @@ export default async function GalleryPage() {
                 aria-label={`View ${s.label} — ${s.count} photograph${s.count === 1 ? "" : "s"}`}
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={s.cover}
+                  <Image
+                    src={s.cover.url}
                     alt={`${s.label} series cover`}
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    fill
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    style={{ objectFit: "cover" }}
                     className="transition-opacity duration-[var(--dur-base)] group-hover:opacity-85"
                   />
                 </div>

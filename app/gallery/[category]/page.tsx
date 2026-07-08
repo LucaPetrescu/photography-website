@@ -4,6 +4,9 @@ import { listFolders, listPhotos } from "@/lib/B2Bucket";
 import { Container } from "@/components/ui/Container";
 import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
 
+// Signed B2 URLs expire after 1hr — regenerate the page well before that.
+export const revalidate = 1800;
+
 type Props = {
   params: Promise<{ category: string }>;
 };
@@ -35,7 +38,7 @@ export default async function CategoryPage({ params }: Props) {
   const match = folders.find((f: string) => f.replace(/\/$/, "") === category);
   if (!match) notFound();
 
-  const urls = await listPhotos(category);
+  const photos = await listPhotos(category);
   const label = folderToLabel(category);
 
   return (
@@ -48,12 +51,12 @@ export default async function CategoryPage({ params }: Props) {
           {label}
         </h1>
         <p className="mt-2 text-[0.8125rem] text-muted">
-          {urls.length}&nbsp;{urls.length === 1 ? "photograph" : "photographs"}
+          {photos.length}&nbsp;{photos.length === 1 ? "photograph" : "photographs"}
         </p>
       </Container>
 
       <div className="px-4 pb-16 pt-6 md:px-8">
-        <B2PhotoWall urls={urls} />
+        <B2PhotoWall photos={photos} />
       </div>
     </main>
   );

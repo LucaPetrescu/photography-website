@@ -1,4 +1,24 @@
-import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  ListObjectsV2Command,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import probe from "probe-image-size";
+
+const SIGNED_URL_TTL_SECONDS = 3600;
+
+// EXIF orientations 5-8 are rotated 90°/270° — browsers auto-rotate on
+// display, so the rendered aspect ratio has width/height swapped.
+const ROTATED_ORIENTATIONS = new Set([5, 6, 7, 8]);
+
+export type Photo = {
+  url: string;
+  width: number;
+  height: number;
+};
+
+const FALLBACK_ASPECT = { width: 3, height: 2 };
 
 function getS3(): {
   client: S3Client;
@@ -61,25 +81,46 @@ async function listKeys(
   return { keys, bucket, region };
 }
 
-// Bucket must be set to public-read in the B2 dashboard for these URLs to resolve.
-function toPublicUrls(keys: string[], bucket: string, region: string) {
-  return keys.map(
-    (key) => `https://s3.${region}.backblazeb2.com/${bucket}/${key}`,
+// Bucket stays private — each key gets a short-lived signed URL the browser
+// fetches directly from B2, bypassing our server for the image bytes.
+// Dimensions are probed via a partial read (just the header) so next/image
+// can reserve correct layout space without downloading the full photo.
+async function toPhotos(keys: string[], bucket: string): Promise<Photo[]> {
+  const { client } = getS3();
+  return Promise.all(
+    keys.map(async (key) => {
+      const url = await getSignedUrl(
+        client,
+        new GetObjectCommand({ Bucket: bucket, Key: key }),
+        { expiresIn: SIGNED_URL_TTL_SECONDS },
+      );
+
+      try {
+        const info = await probe(url);
+        const rotated = ROTATED_ORIENTATIONS.has(info.orientation ?? 1);
+        return {
+          url,
+          width: rotated ? info.height : info.width,
+          height: rotated ? info.width : info.height,
+        };
+      } catch {
+        return { url, ...FALLBACK_ASPECT };
+      }
+    }),
   );
 }
 
-export async function listPhotos(folder: string): Promise<string[]> {
-  const { keys, bucket, region } = await listKeys(`${folder}/`);
-  return toPublicUrls(keys, bucket, region);
+export async function listPhotos(folder: string): Promise<Photo[]> {
+  const { keys, bucket } = await listKeys(`${folder}/`);
+  return toPhotos(keys, bucket);
 }
 
-export async function listAllPhotos(): Promise<string[]> {
+export async function listAllPhotos(): Promise<Photo[]> {
   const folders = await listFolders();
   const keyGroups = await Promise.all(folders.map((f) => listKeys(f)));
-  const { bucket, region } = keyGroups[0] ?? getS3();
-  return toPublicUrls(
+  const { bucket } = keyGroups[0] ?? getS3();
+  return toPhotos(
     keyGroups.flatMap((g) => g.keys),
     bucket,
-    region,
   );
 }
