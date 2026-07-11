@@ -1,19 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import type { Photo } from "@/lib/B2Bucket";
 import { B2Lightbox } from "./B2Lightbox";
 
 const ease = "cubic-bezier(0.16,1,0.3,1)";
 
-export function B2PhotoWall({ urls }: { urls: string[] }) {
+// Above-the-fold tiles load eagerly and get fetch priority; the rest wait
+// for next/image's built-in lazy-load threshold so requests don't all fire at once.
+const EAGER_COUNT = 6;
+
+export function B2PhotoWall({ photos }: { photos: Photo[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <>
       <div className="columns-3 lg:columns-4" style={{ columnGap: "12px" }}>
-        {urls.map((url, idx) => (
+        {photos.map((photo, idx) => (
           <button
-            key={url}
+            key={photo.url}
             type="button"
             onClick={() => setOpenIndex(idx)}
             aria-label={`Open photograph ${idx + 1}`}
@@ -25,10 +31,14 @@ export function B2PhotoWall({ urls }: { urls: string[] }) {
               animation: `fadeInUp 700ms ${ease} ${Math.min(idx * 50, 400)}ms both`,
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={url}
+            <Image
+              src={photo.url}
               alt={`Photograph ${idx + 1}`}
+              width={photo.width}
+              height={photo.height}
+              sizes="(min-width: 1024px) 25vw, 33vw"
+              priority={idx < EAGER_COUNT}
+              loading={idx < EAGER_COUNT ? "eager" : "lazy"}
               style={{ width: "100%", height: "auto", display: "block" }}
               className="transition-opacity duration-[var(--dur-base)] group-hover:opacity-80"
             />
@@ -37,7 +47,7 @@ export function B2PhotoWall({ urls }: { urls: string[] }) {
       </div>
 
       <B2Lightbox
-        urls={urls}
+        photos={photos}
         index={openIndex}
         onClose={() => setOpenIndex(null)}
         onNavigate={setOpenIndex}

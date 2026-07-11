@@ -3,17 +3,33 @@ import {
   ListObjectsV2Command,
   GetObjectCommand,
 } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import probe from "probe-image-size";
 
-function getS3(): { client: S3Client; bucket: string | undefined } {
+const SIGNED_URL_TTL_SECONDS = 3600;
+
+// EXIF orientations 5-8 are rotated 90°/270° — browsers auto-rotate on
+// display, so the rendered aspect ratio has width/height swapped.
+const ROTATED_ORIENTATIONS = new Set([5, 6, 7, 8]);
+
+export type Photo = {
+  url: string;
+  width: number;
+  height: number;
+};
+
+const FALLBACK_ASPECT = { width: 3, height: 2 };
+
+function getS3(): {
+  client: S3Client;
+  bucket: string;
+  region: string;
+} {
   const region = process.env.REGION;
   const bucket = process.env.BUCKET;
 
-  try {
-    if (!region) throw new Error("Missing env var: REGION");
-    if (!bucket) throw new Error("Missing env var: BUCKET");
-  } catch (error) {
-    console.log(error);
-  }
+  if (!region) throw new Error("Missing env var: REGION");
+  if (!bucket) throw new Error("Missing env var: BUCKET");
 
   return {
     client: new S3Client({
@@ -25,6 +41,7 @@ function getS3(): { client: S3Client; bucket: string | undefined } {
       },
     }),
     bucket,
+    region,
   };
 }
 
@@ -38,8 +55,10 @@ export async function listFolders(): Promise<string[]> {
     .filter(Boolean) as string[];
 }
 
-async function listKeys(prefix?: string): Promise<string[]> {
-  const { client, bucket } = getS3();
+async function listKeys(
+  prefix?: string,
+): Promise<{ keys: string[]; bucket: string; region: string }> {
+  const { client, bucket, region } = getS3();
   const keys: string[] = [];
   let token: string | undefined;
 
@@ -59,21 +78,49 @@ async function listKeys(prefix?: string): Promise<string[]> {
     token = res.IsTruncated ? res.NextContinuationToken : undefined;
   } while (token);
 
-  return keys;
+  return { keys, bucket, region };
 }
 
-function toProxyUrls(keys: string[]) {
-  return keys.map((key) => `/api/photo?key=${encodeURIComponent(key)}`);
+// Bucket stays private — each key gets a short-lived signed URL the browser
+// fetches directly from B2, bypassing our server for the image bytes.
+// Dimensions are probed via a partial read (just the header) so next/image
+// can reserve correct layout space without downloading the full photo.
+async function toPhotos(keys: string[], bucket: string): Promise<Photo[]> {
+  const { client } = getS3();
+  return Promise.all(
+    keys.map(async (key) => {
+      const url = await getSignedUrl(
+        client,
+        new GetObjectCommand({ Bucket: bucket, Key: key }),
+        { expiresIn: SIGNED_URL_TTL_SECONDS },
+      );
+
+      try {
+        const info = await probe(url);
+        const rotated = ROTATED_ORIENTATIONS.has(info.orientation ?? 1);
+        return {
+          url,
+          width: rotated ? info.height : info.width,
+          height: rotated ? info.width : info.height,
+        };
+      } catch {
+        return { url, ...FALLBACK_ASPECT };
+      }
+    }),
+  );
 }
 
-// Signed URLs expire after 1 hour — suitable for SSR, not static export.
-export async function listPhotos(folder: string): Promise<string[]> {
-  const keys = await listKeys(`${folder}/`);
-  return toProxyUrls(keys);
+export async function listPhotos(folder: string): Promise<Photo[]> {
+  const { keys, bucket } = await listKeys(`${folder}/`);
+  return toPhotos(keys, bucket);
 }
 
-export async function listAllPhotos(): Promise<string[]> {
+export async function listAllPhotos(): Promise<Photo[]> {
   const folders = await listFolders();
   const keyGroups = await Promise.all(folders.map((f) => listKeys(f)));
-  return toProxyUrls(keyGroups.flat());
+  const { bucket } = keyGroups[0] ?? getS3();
+  return toPhotos(
+    keyGroups.flatMap((g) => g.keys),
+    bucket,
+  );
 }

@@ -3,6 +3,9 @@ import { listAllPhotos } from "@/lib/B2Bucket";
 import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
 import { siteConfig } from "@/lib/siteConfig";
 
+// Signed B2 URLs expire after 1hr — regenerate the page well before that.
+export const revalidate = 1800;
+
 export const metadata: Metadata = {
   title: {
     absolute: `${siteConfig.brand} — Landscape & Portrait Photographer`,
@@ -11,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function OverviewPage() {
-  const urls = await listAllPhotos();
+  const photos = await listAllPhotos();
 
   return (
     <main id="main" className="pt-14">
@@ -21,7 +24,7 @@ export default async function OverviewPage() {
         </p>
       </div>
       <div className="px-4 pb-16 md:px-8">
-        <B2PhotoWall urls={urls} />
+        <B2PhotoWall photos={photos} />
       </div>
     </main>
   );
