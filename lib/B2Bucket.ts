@@ -28,6 +28,8 @@ function getS3(): {
   const region = process.env.REGION;
   const bucket = process.env.BUCKET;
 
+  console.log("Region: ", process.env);
+
   if (!region) throw new Error("Missing env var: REGION");
   if (!bucket) throw new Error("Missing env var: BUCKET");
 
