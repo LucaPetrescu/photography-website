@@ -7,10 +7,11 @@ export const siteConfig = {
   name: "Luca Petrescu",
   brand: "Luca Petrescu Photography",
   tagline:
-    "Landscape and portrait photography from the Pacific Northwest. Available for commissions worldwide.",
-  shortBio: "Landscape and portrait photography from the Pacific Northwest.",
-  location: "Pacific Northwest, USA",
-  email: "hello@lucapetrescu.com",
+    "Portrait, events and travel photographer from Bucharest, Romania. Available for commissions in all of Europe.",
+  shortBio: "Portrait, events and travel photographer from Bucharest Romania.",
+  location: "Bucharest, Romania",
+  email: "lucapetrescufotograf@gmail.com",
+  phone: "+40725189163",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://lucapetrescu.com",
   nav: [
     { label: "Overview", href: "/" },

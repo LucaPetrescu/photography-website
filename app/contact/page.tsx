@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, AtSign, MapPin } from "lucide-react";
+import { Mail, AtSign, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { siteConfig } from "@/lib/siteConfig";
@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/siteConfig";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Luca Petrescu about commissions, fine-art prints, and editorial assignments.",
+    "Get in touch with Luca Petrescu for personal photoshoots or event photography.",
 };
 
 export default function ContactPage() {
@@ -20,12 +20,11 @@ export default function ContactPage() {
               Contact
             </p>
             <h1 className="mt-4 font-display text-display font-semibold">
-              Let&rsquo;s make something.
+              Let&rsquo;s connect.
             </h1>
             <p className="mt-4 max-w-[42ch] text-body-lg text-muted">
-              Commissions, prints, editorial assignments, or just to say hello
-              &mdash; tell me a little about what you have in mind and
-              I&rsquo;ll reply within a couple of days.
+              Thinking about a personal shoot, or need someone behind the camera
+              for your event? Drop me a line below or fill in the contact form.
             </p>
 
             <div className="mt-8 grid gap-4">
@@ -60,6 +59,17 @@ export default function ContactPage() {
                 </a>
               </div>
               <div className="flex items-center gap-3">
+                <Phone
+                  size={16}
+                  strokeWidth={1.5}
+                  className="flex-none text-muted"
+                  aria-hidden="true"
+                />
+                <span className="text-[0.875rem] text-muted">
+                  {siteConfig.phone}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
                 <MapPin
                   size={16}
                   strokeWidth={1.5}
@@ -67,7 +77,7 @@ export default function ContactPage() {
                   aria-hidden="true"
                 />
                 <span className="text-[0.875rem] text-muted">
-                  {siteConfig.location} &middot; shooting worldwide
+                  {siteConfig.location} &middot; shooting in Europe
                 </span>
               </div>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useId, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { submitContact } from "@/app/contact/actions";
@@ -38,17 +38,25 @@ export function ContactForm() {
     submitContact,
     contactInitialState,
   );
+  const [isOtherSelected, setIsOtherSelected] = useState<boolean>(false);
   const uid = useId();
   const ids = {
-    name: `${uid}-name`,
+    firstName: `${uid}-firstName`,
+    lastName: `${uid}-lastName`,
     email: `${uid}-email`,
-    subject: `${uid}-subject`,
+    jobCategory: `${uid}-jobcategory`,
+    details: `${uid}-details`,
     message: `${uid}-message`,
-    nameErr: `${uid}-name-err`,
+    firstNameErr: `${uid}-firstName-err`,
+    lastNameErr: `${uid}-lastName-err`,
     emailErr: `${uid}-email-err`,
+    jobCategoryErr: `${uid}-jobCategory-err`,
     messageErr: `${uid}-message-err`,
+    detailsErr: `${uid}-details-err`,
     status: `${uid}-status`,
   };
+
+  const jobCategories = ["portrait", "event", "photo editing", "other"];
 
   const errors = state.ok ? {} : state.errors;
   const formError = state.ok ? undefined : state.formError;
@@ -69,13 +77,9 @@ export function ContactForm() {
         <p className="max-w-[48ch] text-muted">
           I read every note personally and usually reply within two days. If
           it&rsquo;s urgent, you can always reach me directly at{" "}
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="text-accent underline underline-offset-2"
-          >
-            {siteConfig.email}
-          </a>
-          .
+          <span className="text-accent underline underline-offset-2">
+            {siteConfig.phone}
+          </span>
         </p>
         <Link
           href="/gallery"
@@ -91,52 +95,99 @@ export function ContactForm() {
     <form action={formAction} className="grid gap-5" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-1.5">
-          <label htmlFor={ids.name} className="text-body-sm font-medium">
-            Name
+          <label htmlFor={ids.firstName} className="text-body-sm font-medium">
+            First name
           </label>
           <input
-            id={ids.name}
-            name="name"
+            id={ids.firstName}
+            name="firstName"
             type="text"
-            autoComplete="name"
-            placeholder="Your name"
-            aria-invalid={errors.name ? "true" : undefined}
-            aria-describedby={errors.name ? ids.nameErr : undefined}
-            className={cn(inputBase, errors.name && inputError)}
+            autoComplete="given-name"
+            placeholder="Your first name"
+            aria-invalid={errors.firstName ? "true" : undefined}
+            aria-describedby={errors.firstName ? ids.firstNameErr : undefined}
+            className={cn(inputBase, errors.firstName && inputError)}
           />
-          <FieldError id={ids.nameErr} message={errors.name?.[0]} />
+          <FieldError id={ids.firstNameErr} message={errors.firstName?.[0]} />
         </div>
 
         <div className="grid gap-1.5">
-          <label htmlFor={ids.email} className="text-body-sm font-medium">
-            Email
+          <label htmlFor={ids.lastName} className="text-body-sm font-medium">
+            Last name
           </label>
           <input
-            id={ids.email}
-            name="email"
-            type="email"
-            autoComplete="email"
-            placeholder="you@example.com"
-            aria-invalid={errors.email ? "true" : undefined}
-            aria-describedby={errors.email ? ids.emailErr : undefined}
-            className={cn(inputBase, errors.email && inputError)}
+            id={ids.lastName}
+            name="lastName"
+            type="text"
+            autoComplete="family-name"
+            placeholder="Your last name"
+            aria-invalid={errors.lastName ? "true" : undefined}
+            aria-describedby={errors.lastName ? ids.lastNameErr : undefined}
+            className={cn(inputBase, errors.lastName && inputError)}
           />
-          <FieldError id={ids.emailErr} message={errors.email?.[0]} />
+          <FieldError id={ids.lastNameErr} message={errors.lastName?.[0]} />
         </div>
       </div>
 
       <div className="grid gap-1.5">
-        <label htmlFor={ids.subject} className="text-body-sm font-medium">
-          Subject <span className="font-normal text-muted">(optional)</span>
+        <label htmlFor={ids.email} className="text-body-sm font-medium">
+          Email
         </label>
         <input
-          id={ids.subject}
-          name="subject"
-          type="text"
-          placeholder="Commission, print enquiry, …"
-          className={inputBase}
+          id={ids.email}
+          name="email"
+          type="email"
+          autoComplete="email"
+          placeholder="you@example.com"
+          aria-invalid={errors.email ? "true" : undefined}
+          aria-describedby={errors.email ? ids.emailErr : undefined}
+          className={cn(inputBase, errors.email && inputError)}
         />
+        <FieldError id={ids.emailErr} message={errors.email?.[0]} />
       </div>
+
+      <div className="grid gap-1.5">
+        <label htmlFor={ids.jobCategory} className="text-body-sm font-medium">
+          What is your preffered service?
+        </label>
+        <select
+          id={ids.jobCategory}
+          name="jobCategory"
+          defaultValue=""
+          className={inputBase}
+          onChange={(e) => setIsOtherSelected(e.target.value === "other")}
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+          {jobCategories.map((category) => (
+            <option key={category} value={category}>
+              {category[0].toUpperCase() + category.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
+      {isOtherSelected && (
+        <div className="grid gap-1.5">
+          <label htmlFor={ids.details} className="text-body-sm font-medium">
+            Details
+          </label>
+          <textarea
+            id={ids.details}
+            name="details"
+            rows={1}
+            placeholder="Please specify the type of shoot you need."
+            aria-invalid={errors.details ? "true" : undefined}
+            aria-describedby={errors.details ? ids.detailsErr : undefined}
+            className={cn(
+              inputBase,
+              "min-h-[140px] resize-y leading-[1.6]",
+              errors.details && inputError,
+            )}
+          />
+          <FieldError id={ids.detailsErr} message={errors.details?.[0]} />
+        </div>
+      )}
 
       <div className="grid gap-1.5">
         <label htmlFor={ids.message} className="text-body-sm font-medium">
