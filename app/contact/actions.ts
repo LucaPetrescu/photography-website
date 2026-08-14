@@ -1,7 +1,6 @@
 "use server";
 
 import { z } from "zod";
-import { Resend } from "resend";
 import { siteConfig } from "@/lib/siteConfig";
 import {
   contactSchema,
@@ -10,14 +9,16 @@ import {
 } from "@/lib/validation";
 import { renderCustomerConfirmationEmail } from "@/lib/emails/customerConfirmation";
 import { renderOwnerNotificationEmail } from "@/lib/emails/ownerNotification";
+import {
+  TransactionalEmailsApi,
+  TransactionalEmailsApiApiKeys,
+} from "@getbrevo/brevo";
+import { BrevoClient } from "@getbrevo/brevo";
 
 /**
  * Contact form Server Action. Signature matches useActionState:
  * (prevState, formData) => nextState.
  *
- * Flow: honeypot check → Zod validation → send via Resend → typed result.
- * The Resend client is created lazily and only when a key is present, so the
- * build (SSG) succeeds without the secret.
  */
 export async function submitContact(
   _prevState: ContactState,
@@ -45,12 +46,16 @@ export async function submitContact(
     };
   }
 
-  const { firstName, lastName, email, jobCategory, details, message } =
-    parsed.data;
+  const {
+    firstName,
+    lastName,
+    email: clientEmail,
+    jobCategory,
+    details,
+    message,
+  } = parsed.data;
 
-  // 4. Send via Resend. Guard the client init so a missing key is handled
-  //    gracefully at runtime (and never breaks the build).
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
     return {
       ok: false,
@@ -59,36 +64,29 @@ export async function submitContact(
     };
   }
 
-  const to = process.env.CONTACT_TO_EMAIL ?? siteConfig.email;
-  const from = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
+  const photographerEmail = process.env.PHOTOGRAPHER_EMAIL ?? siteConfig.email;
+  const senderEmail = process.env.SENDER_EMAIL ?? siteConfig.email;
 
-  const resend = new Resend(apiKey);
+  const brevoClient = new BrevoClient({ apiKey: apiKey });
+
   const owner = renderOwnerNotificationEmail({
     firstName,
     lastName,
-    email,
+    email: clientEmail,
     jobCategory,
     details,
     message,
   });
 
   try {
-    const { error } = await resend.emails.send({
-      from: `${siteConfig.brand} <${from}>`,
-      to,
-      replyTo: email,
+    await brevoClient.transactionalEmails.sendTransacEmail({
+      sender: { name: siteConfig.brand, email: senderEmail },
+      to: [{ email: photographerEmail }],
+      replyTo: { email: clientEmail },
       subject: owner.subject,
-      html: owner.html,
-      text: owner.text,
+      htmlContent: owner.html,
+      textContent: owner.text,
     });
-
-    if (error) {
-      return {
-        ok: false,
-        errors: {},
-        formError: `Something went wrong sending your message. Please email me directly at ${siteConfig.email}.`,
-      };
-    }
   } catch {
     return {
       ok: false,
@@ -96,24 +94,4 @@ export async function submitContact(
       formError: `Something went wrong sending your message. Please email me directly at ${siteConfig.email}.`,
     };
   }
-
-  // The lead is already in via the owner notification above, so a failure
-  // here shouldn't fail the whole submission — just skip the confirmation.
-  try {
-    const confirmation = renderCustomerConfirmationEmail({
-      firstName,
-      jobCategory,
-    });
-    await resend.emails.send({
-      from: `${siteConfig.brand} <${from}>`,
-      to: email,
-      subject: confirmation.subject,
-      html: confirmation.html,
-      text: confirmation.text,
-    });
-  } catch {
-    // Best-effort — the owner notification already succeeded.
-  }
-
-  return { ok: true };
 }

@@ -5,7 +5,7 @@ export type NavItem = {
 
 export const siteConfig = {
   name: "Luca Petrescu",
-  brand: "Luca Petrescu Photography",
+  brand: "Luca Petrescu Photographer",
   tagline:
     "Portrait, events and travel photographer from Bucharest, Romania. Available for commissions in all of Europe.",
   shortBio: "Portrait, events and travel photographer from Bucharest Romania.",

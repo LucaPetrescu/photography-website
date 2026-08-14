@@ -8,7 +8,7 @@ import type { NextConfig } from "next";
  * - `'unsafe-inline'` is required for styles because Tailwind and `next/font`
  *   inject inline <style>/style attributes during static rendering.
  * - `img-src` allows data:/blob: for `next/image` blur placeholders.
- * - `connect-src 'self'` is enough; the Resend call happens server-side.
+ * - `connect-src 'self'` is enough;
  */
 const csp = [
   "default-src 'self'",

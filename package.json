@@ -14,13 +14,13 @@
   "dependencies": {
     "@aws-sdk/client-s3": "3.1072.0",
     "@aws-sdk/s3-request-presigner": "3.1073.0",
+    "@getbrevo/brevo": "6.0.2",
     "@radix-ui/react-dialog": "1.1.16",
     "lucide-react": "1.17.0",
     "next": "16.2.9",
     "probe-image-size": "7.3.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "resend": "6.12.4",
     "zod": "4.4.3"
   },
   "devDependencies": {
