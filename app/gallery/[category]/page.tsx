@@ -1,26 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { listFolders, listPhotos } from "@/lib/B2Bucket";
+import { listFolders, listPhotos, folderToLabel } from "@/lib/localImages";
 import { Container } from "@/components/ui/Container";
-import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
-
-// Signed B2 URLs expire after 1hr — regenerate the page well before that.
-export const revalidate = 1800;
+import { PhotoWall } from "@/components/gallery/PhotoWall";
 
 type Props = {
   params: Promise<{ category: string }>;
 };
 
-function folderToLabel(folder: string): string {
-  return folder
-    .replace(/\/$/, "")
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-export async function generateStaticParams() {
-  const folders = await listFolders();
-  return folders.map((f: string) => ({ category: f.replace(/\/$/, "") }));
+export function generateStaticParams() {
+  return listFolders().map((folder) => ({ category: folder }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -34,9 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
-  const folders = await listFolders();
-  const match = folders.find((f: string) => f.replace(/\/$/, "") === category);
-  if (!match) notFound();
+  const folders = listFolders();
+  if (!folders.includes(category)) notFound();
 
   const photos = await listPhotos(category);
   const label = folderToLabel(category);
@@ -56,7 +44,7 @@ export default async function CategoryPage({ params }: Props) {
       </Container>
 
       <div className="px-4 pb-16 pt-6 md:px-8">
-        <B2PhotoWall photos={photos} />
+        <PhotoWall photos={photos} />
       </div>
     </main>
   );

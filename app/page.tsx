@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { listAllPhotos } from "@/lib/B2Bucket";
-import { B2PhotoWall } from "@/components/gallery/B2PhotoWall";
+import { listAllPhotos } from "@/lib/localImages";
+import { PhotoWall } from "@/components/gallery/PhotoWall";
 import { siteConfig } from "@/lib/siteConfig";
-
-// Signed B2 URLs expire after 1hr — regenerate the page well before that.
-export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +21,7 @@ export default async function OverviewPage() {
         </p>
       </div>
       <div className="px-4 pb-16 md:px-8">
-        <B2PhotoWall photos={photos} />
+        <PhotoWall photos={photos} />
       </div>
     </main>
   );

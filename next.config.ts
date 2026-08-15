@@ -8,13 +8,13 @@ import type { NextConfig } from "next";
  * - `'unsafe-inline'` is required for styles because Tailwind and `next/font`
  *   inject inline <style>/style attributes during static rendering.
  * - `img-src` allows data:/blob: for `next/image` blur placeholders.
- * - `connect-src 'self'` is enough; the Resend call happens server-side.
+ * - `connect-src 'self'` is enough; the Brevo call happens server-side.
  */
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.s3.eu-central-003.backblazeb2.com",
+  "img-src 'self' data: blob:",
   "font-src 'self' data:",
   "connect-src 'self'",
   "object-src 'none'",
@@ -36,14 +36,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "*.s3.eu-central-003.backblazeb2.com",
-      },
-    ],
-  },
   turbopack: {
     root: __dirname,
   },

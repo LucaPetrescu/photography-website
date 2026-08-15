@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { listPhotos } from "@/lib/B2Bucket";
+import { listFolders, listPhotos, folderToLabel } from "@/lib/localImages";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-
-// Signed B2 URLs expire after 1hr — regenerate the page well before that.
-export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -15,25 +12,19 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const [peoplePhotos, studioPhotos] = await Promise.all([
-    listPhotos("people"),
-    listPhotos("studio"),
-  ]);
+  const folders = listFolders();
+  const photosByFolder = await Promise.all(
+    folders.map((folder) => listPhotos(folder)),
+  );
 
-  const series = [
-    {
-      slug: "people",
-      label: "People",
-      cover: peoplePhotos[0],
-      count: peoplePhotos.length,
-    },
-    {
-      slug: "studio",
-      label: "Studio",
-      cover: studioPhotos[0],
-      count: studioPhotos.length,
-    },
-  ].filter((s) => s.cover);
+  const series = folders
+    .map((folder, i) => ({
+      slug: folder,
+      label: folderToLabel(folder),
+      cover: photosByFolder[i][0],
+      count: photosByFolder[i].length,
+    }))
+    .filter((s) => s.cover);
 
   return (
     <main id="main" className="pt-14">
