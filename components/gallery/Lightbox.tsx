@@ -4,16 +4,16 @@ import { useCallback, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import type { Photo } from "@/lib/B2Bucket";
+import type { Photo } from "@/lib/localImages";
 
-type B2LightboxProps = {
+type LightboxProps = {
   photos: Photo[];
   index: number | null;
   onClose: () => void;
   onNavigate: (next: number) => void;
 };
 
-export function B2Lightbox({ photos, index, onClose, onNavigate }: B2LightboxProps) {
+export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) {
   const open = index !== null;
   const photo = index !== null ? photos[index] : null;
 

@@ -54,6 +54,8 @@ export function MobileNav() {
           <nav className="mt-10 flex flex-1 flex-col gap-1" aria-label="Mobile">
             {links.map((item) => {
               const active = isActive(item.href);
+              // "Services" nests under "Gallery" to hint at the desktop dropdown grouping.
+              const nested = item.href === "/services";
               return (
                 <Link
                   key={item.href}
@@ -61,7 +63,8 @@ export function MobileNav() {
                   aria-current={active ? "page" : undefined}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "inline-flex min-h-11 items-center text-lg font-medium transition-colors",
+                    "inline-flex min-h-11 items-center font-medium transition-colors",
+                    nested ? "pl-4 text-base" : "text-lg",
                     active ? "text-text" : "text-muted hover:text-text",
                   )}
                 >

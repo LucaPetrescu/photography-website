@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import type { Photo } from "@/lib/B2Bucket";
-import { B2Lightbox } from "./B2Lightbox";
+import type { Photo } from "@/lib/localImages";
+import { Lightbox } from "./Lightbox";
 
 const ease = "cubic-bezier(0.16,1,0.3,1)";
 
@@ -11,7 +11,7 @@ const ease = "cubic-bezier(0.16,1,0.3,1)";
 // for next/image's built-in lazy-load threshold so requests don't all fire at once.
 const EAGER_COUNT = 6;
 
-export function B2PhotoWall({ photos }: { photos: Photo[] }) {
+export function PhotoWall({ photos }: { photos: Photo[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -46,7 +46,7 @@ export function B2PhotoWall({ photos }: { photos: Photo[] }) {
         ))}
       </div>
 
-      <B2Lightbox
+      <Lightbox
         photos={photos}
         index={openIndex}
         onClose={() => setOpenIndex(null)}
