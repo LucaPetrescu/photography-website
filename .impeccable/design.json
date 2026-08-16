@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-16T00:00:00.000Z",
+  "title": "Design System: Luca Petrescu Photography",
+  "extensions": {
+    "colorMeta": {
+      "ink-black": {
+        "role": "primary",
+        "displayName": "Ink Black",
+        "canonical": "#111111",
+        "tonalRamp": ["#000000", "#111111", "#262626", "#3d3d3d", "#595959", "#7a7a7a", "#a6a6a6", "#d4d4d4"]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Accent Hover",
+        "canonical": "#000000",
+        "tonalRamp": ["#000000", "#0d0d0d", "#1a1a1a", "#262626", "#333333", "#404040", "#4d4d4d", "#595959"]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#e6e6e6", "#eeeeee", "#f2f2f2", "#f5f5f5", "#f8f8f8", "#fafafa", "#fcfcfc", "#ffffff"]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Soft Surface",
+        "canonical": "#f5f5f5",
+        "tonalRamp": ["#c2c2c2", "#d4d4d4", "#e0e0e0", "#e8e8e8", "#eeeeee", "#f2f2f2", "#f5f5f5", "#fafafa"]
+      },
+      "accent-subtle": {
+        "role": "neutral",
+        "displayName": "Accent Subtle",
+        "canonical": "#f0f0f0",
+        "tonalRamp": ["#bfbfbf", "#d1d1d1", "#dedede", "#e6e6e6", "#ececec", "#f0f0f0", "#f5f5f5", "#fafafa"]
+      },
+      "hairline-grey": {
+        "role": "neutral",
+        "displayName": "Hairline Grey",
+        "canonical": "#888888",
+        "tonalRamp": ["#2b2b2b", "#454545", "#5e5e5e", "#767676", "#888888", "#9c9c9c", "#bdbdbd", "#dcdcdc"]
+      },
+      "hairline-border": {
+        "role": "neutral",
+        "displayName": "Hairline Border",
+        "canonical": "#e8e8e8",
+        "tonalRamp": ["#a6a6a6", "#bcbcbc", "#cccccc", "#dcdcdc", "#e2e2e2", "#e8e8e8", "#f0f0f0", "#f6f6f6"]
+      },
+      "muted-forest": {
+        "role": "semantic-success",
+        "displayName": "Muted Forest",
+        "canonical": "#2d6a4f",
+        "tonalRamp": ["#0f2a1e", "#1a4635", "#22563f", "#2d6a4f", "#3d8a67", "#5aa683", "#8ec4aa", "#c6e2d3"]
+      },
+      "muted-clay": {
+        "role": "semantic-error",
+        "displayName": "Muted Clay",
+        "canonical": "#b23a2e",
+        "tonalRamp": ["#3d130f", "#5f1f18", "#872a20", "#b23a2e", "#c65f52", "#d6857a", "#e6afa6", "#f3d7d1"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page-level h1s only — the largest, most deliberate statement on a page." },
+      "headline": { "displayName": "Headline", "purpose": "Section-level h1s on secondary pages." },
+      "title": { "displayName": "Title", "purpose": "In-page h2s — category headers, card titles." },
+      "body": { "displayName": "Body", "purpose": "Running copy; a larger lead-in and a smaller caption variant both derive from this role." },
+      "label": { "displayName": "Label", "purpose": "Uppercase eyebrow above page headings and small UI labels." },
+      "mono": { "displayName": "Mono", "purpose": "Anything counted or measured: frame counters, spec rows, metadata." }
+    },
+    "shadows": [
+      { "name": "ambient", "value": "0 1px 2px rgba(0,0,0,0.04)", "purpose": "Barest lift behind the skip-link on focus." },
+      { "name": "floating", "value": "0 24px 60px -12px rgba(0,0,0,0.25)", "purpose": "The lightbox image and the mobile drawer — anything genuinely floating above the page." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for entrances and hover transitions." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.65, 0, 0.35, 1)", "purpose": "Symmetric easing for toggles/drawers." },
+      { "name": "dur-fast", "value": "120ms", "purpose": "Micro-interactions: input focus, button hover." },
+      { "name": "dur-base", "value": "220ms", "purpose": "Standard transitions: image opacity, color changes." },
+      { "name": "dur-slow", "value": "400ms", "purpose": "Overlay entrances: dialogs, drawers." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Nav-Level Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Full-bleed black CTA used for top-level actions like \"Contact\" in the mobile drawer and \"Get in touch\" on Services. Zero radius — the Sharp Frame Rule.",
+      "html": "<button class=\"ds-btn-primary\">Get in touch</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; background: #111111; color: #ffffff; font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; border: none; border-radius: 0; transition: background-color 220ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-primary:hover { background: #000000; } .ds-btn-primary:focus-visible { outline: 1.5px solid #111111; outline-offset: 2px; }"
+    },
+    {
+      "name": "Form Submit Button",
+      "kind": "button",
+      "refersTo": "button-form-submit",
+      "description": "Same Ink Black/white pairing as the nav-level button, but 8px radius since it lives inside a form alongside rounded inputs. Presses translate down 1px.",
+      "html": "<button class=\"ds-btn-submit\">Send message</button>",
+      "css": ".ds-btn-submit { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 12px 24px; background: #111111; color: #ffffff; font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; border: none; border-radius: 8px; transition: background-color 220ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-submit:hover { background: #000000; } .ds-btn-submit:active { transform: translateY(1px); } .ds-btn-submit:disabled { cursor: not-allowed; opacity: 0.55; } .ds-btn-submit:focus-visible { outline: 1.5px solid #111111; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Bordered, transparent secondary action. Used for de-emphasized actions like \"Back to the gallery.\"",
+      "html": "<button class=\"ds-btn-ghost\">Back to the gallery</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 24px; background: transparent; color: #111111; font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; border: 1px solid #e8e8e8; border-radius: 8px; transition: border-color 220ms; } .ds-btn-ghost:hover { border-color: #111111; } .ds-btn-ghost:focus-visible { outline: 1.5px solid #111111; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Contact form field. White background, hairline border, 8px radius, ink focus ring via a soft color-mix glow.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Your first name\" />",
+      "css": ".ds-input { width: 100%; min-height: 44px; padding: 12px 16px; background: #ffffff; color: #111111; font-family: Inter, sans-serif; font-size: 16px; border: 1px solid #e8e8e8; border-radius: 8px; transition: border-color 120ms, box-shadow 120ms; } .ds-input::placeholder { color: rgba(136,136,136,0.7); } .ds-input:focus { outline: none; border-color: #111111; box-shadow: 0 0 0 3px rgba(17,17,17,0.18); }"
+    },
+    {
+      "name": "Index Card",
+      "kind": "custom",
+      "refersTo": "signature-index-number",
+      "description": "The system's signature component: an oversized, faint frame number leads a title + description, used for any sequential list of offerings (gear items, services).",
+      "html": "<div class=\"ds-index-card\"><span class=\"ds-index-num\">01</span><div class=\"ds-index-body\"><h3 class=\"ds-index-title\">Private Session</h3><p class=\"ds-index-desc\">One-on-one portrait sessions — solo, couples, or family.</p></div></div>",
+      "css": ".ds-index-card { display: flex; gap: 24px; align-items: flex-start; border-top: 1px solid #e8e8e8; padding: 40px 4px; } .ds-index-num { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(48px, 5vw, 72px); line-height: 1; color: #e8e8e8; user-select: none; } .ds-index-title { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 24px; margin: 0 0 8px; } .ds-index-desc { font-family: Inter, sans-serif; font-size: 17px; line-height: 1.7; color: #888888; margin: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Contact Sheet",
+    "overview": "This is a portfolio that behaves like a darkroom proof sheet, not a marketing site wearing photographs. Every surface is quiet and restrained on purpose: negative space, hairline rules, and a strict grayscale palette exist only to get out of the way of the photography, which is the entire argument. Where the system does speak in its own voice, it borrows the vocabulary of the contact sheet itself — oversized faint frame numbers, mono-spaced technical labels, thin dividers instead of boxed cards.\n\nConfirmed rejection: no stock photography, no illustration, no placeholder people, anywhere. The only imagery this system ever shows is real work from public/assets.",
+    "keyCharacteristics": [
+      "Monochrome ink-on-white palette; the photography supplies all the color",
+      "Hairline (1px) rules do all structural separation — no boxed cards, no shadow at rest",
+      "Serif display type (Fraunces) for anything that titles, a quiet sans (Inter) for anything read, mono (Geist Mono) for anything counted or measured",
+      "A recurring oversized, faint index-number motif (01, 02, 03) lifted straight from contact-sheet frame numbering",
+      "Deliberate, tactile controls — visible press states and firm contrast on anything interactive, even though the palette never leaves grayscale",
+      "Real photography only, never stock or illustrated imagery"
+    ],
+    "rules": [
+      { "name": "The One Ink Rule", "body": "There is exactly one hue in this system: near-black. Primary, accent, text, and focus rings all share the identical value. Contrast comes from value and space, never from a second hue. Muted Forest and Muted Clay are the only two moments any color appears, and only in their exact semantic role.", "section": "colors" },
+      { "name": "The Contact Sheet Rule", "body": "Mono type is reserved for anything that counts or measures. Serif is reserved for anything that titles. Sans is reserved for anything meant to be read start to finish. No role ever borrows another's job.", "section": "typography" },
+      { "name": "The Grounded-by-Default Rule", "body": "If it's part of the page, it's flat. If it's floating above the page (an overlay, a drawer, a lightbox), it gets a shadow. There is no in-between state.", "section": "elevation" },
+      { "name": "The Sharp Frame Rule", "body": "Photography and every primary, nav-level call-to-action stay perfectly square — zero radius. The grid is the ornament; it doesn't need rounding to feel considered.", "section": "shapes" },
+      { "name": "The Hairline Rule", "body": "A single 1px hairline-border (#e8e8e8) line does all structural separation. There are no boxed cards with their own background at rest.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do use the oversized faint index-number motif for any sequential list of offerings (services, gear, future project lists).",
+      "Do let a single hairline border (hairline-border, 1px) do the section-separation work instead of card backgrounds or shadows.",
+      "Do give every interactive control a felt, tactile response — hover darken, press translate, visible focus ring — even though the palette stays grayscale. Restraint in color is not permission to be inert.",
+      "Do reserve mono type strictly for things that count or measure (frame counters, spec values, metadata)."
+    ],
+    "donts": [
+      "Don't introduce a second hue as a persistent UI color. Muted Forest and Muted Clay are reserved for their exact semantic moment only.",
+      "Don't add a shadow to anything at rest. Shadow means 'this is floating above the page' — reserve it for overlays, drawers, and the lightbox.",
+      "Don't round the corners of a nav-level primary CTA. That treatment is reserved for in-form controls only (The Sharp Frame Rule).",
+      "Don't use stock photography, illustration, or placeholder people anywhere. Only real photographs from public/assets."
+    ]
+  }
+}
