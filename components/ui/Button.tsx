@@ -5,11 +5,11 @@ import { cn } from "@/lib/cn";
 type Variant = "primary" | "ghost";
 
 const base =
-  "inline-flex items-center justify-center gap-2 min-h-11 rounded-md px-6 py-3 text-body-sm font-medium font-sans cursor-pointer border border-transparent transition-[background-color,border-color,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-y-0";
+  "inline-flex items-center justify-center gap-2 min-h-11 rounded-sm px-6 py-3 text-body-sm font-medium font-sans cursor-pointer border border-transparent transition-[background-color,border-color,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-y-0";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-white hover:bg-accent-hover",
-  ghost: "bg-transparent text-text border-border hover:border-text",
+  primary: "bg-accent text-bg hover:bg-accent-hover",
+  ghost: "bg-transparent text-text border-border-subtle hover:border-text",
 };
 
 /** Variant for use over dark imagery (e.g. on the hero). */

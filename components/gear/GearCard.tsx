@@ -11,7 +11,7 @@ export function GearCard({ item, index }: { item: GearItem; index: number }) {
     >
       {/* Image */}
       <div
-        className="relative w-full flex-none bg-surface md:w-[55%]"
+        className="relative w-full flex-none bg-bg md:w-[55%]"
         style={{ minHeight: "340px" }}
       >
         <Image
@@ -29,19 +29,16 @@ export function GearCard({ item, index }: { item: GearItem; index: number }) {
         <div>
           <span
             aria-hidden="true"
-            className="block select-none font-display font-semibold leading-none text-border"
-            style={{ fontSize: "clamp(3.5rem, 6vw, 5.5rem)" }}
+            className="block select-none font-display text-index font-light leading-none text-index-number"
           >
             {num}
           </span>
-          <p className="mt-5 font-mono text-mono text-muted">
-            {item.category}
-          </p>
-          <h3 className="mt-1.5 font-display text-h1 font-semibold leading-tight">
+          <p className="mt-5 font-mono text-mono text-muted">{item.category}</p>
+          <h3 className="mt-1.5 font-display text-h1 font-normal leading-tight">
             {item.name}
           </h3>
           {item.description && (
-            <p className="mt-5 max-w-[36ch] text-[0.9375rem] leading-relaxed text-muted">
+            <p className="mt-5 max-w-[36ch] text-body-sm leading-relaxed text-muted">
               {item.description}
             </p>
           )}

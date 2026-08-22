@@ -16,7 +16,7 @@ export function SubmitButton() {
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-transparent bg-accent px-6 py-3 text-body-sm font-medium text-white transition-[background-color,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-accent-hover active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto"
+      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-accent px-6 py-3 text-body-sm font-medium text-bg transition-[background-color,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-accent-hover active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto"
     >
       {pending ? (
         <>

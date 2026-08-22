@@ -29,7 +29,7 @@ export async function submitContact(
   const parsed = contactSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    subject: formData.get("subject") ?? "",
+    projectType: formData.get("projectType"),
     message: formData.get("message"),
   });
 
@@ -41,7 +41,7 @@ export async function submitContact(
     };
   }
 
-  const { name, email, subject, message } = parsed.data;
+  const { name, email, projectType, message } = parsed.data;
 
   // 4. Send via Resend. Guard the client init so a missing key is handled
   //    gracefully at runtime (and never breaks the build).
@@ -56,7 +56,6 @@ export async function submitContact(
 
   const to = process.env.CONTACT_TO_EMAIL ?? siteConfig.email;
   const from = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
-  const subjectLine = subject && subject.length > 0 ? subject : "New enquiry";
 
   try {
     const resend = new Resend(apiKey);
@@ -64,16 +63,14 @@ export async function submitContact(
       from: `${siteConfig.brand} <${from}>`,
       to,
       replyTo: email,
-      subject: `[Portfolio] ${subjectLine}`,
+      subject: `[Portfolio] ${projectType} — ${name}`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
-        subject ? `Subject: ${subject}` : null,
+        `Project type: ${projectType}`,
         "",
         message,
-      ]
-        .filter((line) => line !== null)
-        .join("\n"),
+      ].join("\n"),
     });
 
     if (error) {

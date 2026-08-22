@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
-import tamron2470 from "@/public/images/Tamron24-70.jpg";
-import tamron70200 from "@/public/images/Tamron70-200.jpg";
-import nikkor50 from "@/public/images/Nikkor50.jpg";
+import tamron2470 from "@/public/images/Tamron24-70.png";
+import tamron70200 from "@/public/images/Tamron70-200.png";
+import nikkor50 from "@/public/images/Nikkor50.png";
 
 export type GearItem = {
   name: string;

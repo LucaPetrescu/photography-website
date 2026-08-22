@@ -15,14 +15,12 @@ export default function GearPage() {
   const groups = getGearGroups();
 
   return (
-    <div className="pt-14">
+    <div className="pt-16">
       <Container as="section" className="pb-4 pt-12">
-        <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+        <p className="text-[0.75rem] uppercase tracking-[0.15em] text-muted">
           Gear I Use
         </p>
-        <h1 className="mt-4 font-display text-display font-semibold">
-          The kit
-        </h1>
+        <h1 className="mt-4 font-display text-h1 font-normal">The kit</h1>
         <p className="mt-4 max-w-[54ch] text-body-lg text-muted">
           People ask, so here it is. None of it matters as much as being there
           at the right hour — but a light, weather-sealed setup means I actually

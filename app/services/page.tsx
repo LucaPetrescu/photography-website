@@ -14,17 +14,17 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="pt-14">
+    <div className="pt-16">
       <Container className="pb-4 pt-12">
-        <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+        <p className="text-[0.75rem] uppercase tracking-[0.15em] text-muted">
           Services
         </p>
-        <h1 className="mt-4 max-w-[20ch] font-display text-display font-semibold">
+        <h1 className="mt-4 max-w-[20ch] font-display text-h1 font-normal">
           What I can shoot for you.
         </h1>
         <p className="mt-5 max-w-[var(--container-prose)] text-body-lg text-muted">
-          Three ways to work together — pick the one that fits, or get in
-          touch and we&rsquo;ll figure it out.
+          Three ways to work together — pick the one that fits, or get in touch
+          and we&rsquo;ll figure it out.
         </p>
       </Container>
 

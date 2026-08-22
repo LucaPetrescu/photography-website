@@ -10,18 +10,14 @@ export function GearSection({ group }: { group: GearGroup }) {
       <Reveal>
         <h2
           id={headingId}
-          className="mb-6 border-t border-border pt-8 font-display text-h2 font-semibold"
+          className="mb-6 border-t border-border pt-8 font-display text-h2 font-normal"
         >
           {group.category}
         </h2>
       </Reveal>
       <div>
         {group.items.map((item, i) => (
-          <Reveal
-            key={item.name}
-            delay={i * 150}
-            className="reveal-fly"
-          >
+          <Reveal key={item.name} delay={i * 150} className="reveal-fly">
             <GearCard item={item} index={i} />
           </Reveal>
         ))}

@@ -67,10 +67,10 @@ const jobs = [
   ["gallery/alpine-lake.jpg", 1200, 1500, "ALPINE LAKE", 3],
   ["gallery/dune-grass.jpg", 1200, 1500, "DUNE GRASS", 4],
   // Gear — product-ish 3:2
-  ["gear/nikon-d750.jpg", 1200, 800, "NIKON D750", 0],
-  ["gear/tamron-24-70.jpg", 1200, 800, "24-70 f/2.8", 1],
-  ["gear/tamron-70-200.jpg", 1200, 800, "70-200 f/2.8", 2],
-  ["gear/nikkor-50mm.jpg", 1200, 800, "50mm f/1.8G", 3],
+  ["gear/nikon-d750.png", 1200, 800, "NIKON D750", 0],
+  ["gear/tamron-24-70.png", 1200, 800, "24-70 f/2.8", 1],
+  ["gear/tamron-70-200.png", 1200, 800, "70-200 f/2.8", 2],
+  ["gear/nikkor-50mm.png", 1200, 800, "50mm f/1.8G", 3],
   // OG image source (also have a dynamic opengraph-image route)
   ["og/og-default.jpg", 1200, 630, "LUCA PETRESCU", 0],
 ];

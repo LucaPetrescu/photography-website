@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+/** Matches the three real offers on /services, plus a catch-all. */
+export const PROJECT_TYPES = [
+  "Private Session",
+  "Events",
+  "Personalized Offer",
+  "Not sure yet",
+] as const;
+
 /**
  * Authoritative contact-form schema. Validation runs server-side in the Server
  * Action; HTML attributes provide a first pass on the client.
@@ -11,12 +19,7 @@ export const contactSchema = z.object({
     .min(1, "Please enter your name.")
     .max(120, "That name is a little too long."),
   email: z.email("Please enter a valid email address.").max(200),
-  subject: z
-    .string()
-    .trim()
-    .max(160, "Please keep the subject under 160 characters.")
-    .optional()
-    .or(z.literal("")),
+  projectType: z.enum(PROJECT_TYPES, "Please choose what this is about."),
   message: z
     .string()
     .trim()

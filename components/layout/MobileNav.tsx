@@ -7,6 +7,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { cn } from "@/lib/cn";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 /**
  * Hamburger trigger + right-side slide-in drawer (Radix Dialog).
@@ -40,12 +41,15 @@ export function MobileNav() {
             <Dialog.Title className="text-sm font-medium text-text">
               Luca Petrescu
             </Dialog.Title>
-            <Dialog.Close
-              aria-label="Close navigation menu"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-muted transition-colors hover:text-text"
-            >
-              <X size={20} strokeWidth={1.5} aria-hidden="true" />
-            </Dialog.Close>
+            <div className="flex items-center gap-2">
+              <ThemeToggle className="inline-flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-text" />
+              <Dialog.Close
+                aria-label="Close navigation menu"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-muted transition-colors hover:text-text"
+              >
+                <X size={20} strokeWidth={1.5} aria-hidden="true" />
+              </Dialog.Close>
+            </div>
           </div>
           <Dialog.Description className="sr-only">
             Main site navigation links.
@@ -77,7 +81,7 @@ export function MobileNav() {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="mt-6 inline-flex h-12 w-full items-center justify-center bg-text text-sm font-medium text-surface transition-colors hover:bg-accent-hover"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-sm bg-text text-sm font-medium uppercase tracking-[0.15em] text-bg transition-colors hover:bg-accent-hover"
           >
             Contact
           </Link>

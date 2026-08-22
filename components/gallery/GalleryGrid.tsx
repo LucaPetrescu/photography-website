@@ -20,7 +20,9 @@ export function GalleryGrid({ images, onOpen }: GalleryGridProps) {
       {images.map((img, idx) => (
         <li
           key={img.id}
-          style={{ animation: `fadeInUp 500ms ${ease} ${Math.min(idx * 55, 380)}ms both` }}
+          style={{
+            animation: `fadeInUp 500ms ${ease} ${Math.min(idx * 55, 380)}ms both`,
+          }}
         >
           <button
             type="button"
