@@ -31,5 +31,5 @@ node scripts/generate-placeholders.mjs
 ## Swapping a gear image
 
 Replace the matching file in `gear/` (filenames are referenced from
-`lib/gear.ts`): `nikon-d750.jpg`, `tamron-24-70.jpg`, `tamron-70-200.jpg`,
-`nikkor-50mm.jpg`.
+`lib/gear.ts`): `nikon-d750.png`, `tamron-24-70.png`, `tamron-70-200.png`,
+`nikkor-50mm.png`.

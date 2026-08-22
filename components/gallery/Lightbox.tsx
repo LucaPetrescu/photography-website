@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import type { Photo } from "@/lib/localImages";
+import { folderToLabel } from "@/lib/folderLabel";
 
 type LightboxProps = {
   photos: Photo[];
@@ -13,9 +14,15 @@ type LightboxProps = {
   onNavigate: (next: number) => void;
 };
 
-export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) {
+export function Lightbox({
+  photos,
+  index,
+  onClose,
+  onNavigate,
+}: LightboxProps) {
   const open = index !== null;
   const photo = index !== null ? photos[index] : null;
+  const seriesLabel = photo ? folderToLabel(photo.folder) : "";
 
   const goPrev = useCallback(() => {
     if (index === null) return;
@@ -30,28 +37,45 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); goPrev(); }
-      else if (e.key === "ArrowRight") { e.preventDefault(); goNext(); }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goPrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goNext();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, goPrev, goNext]);
 
   return (
-    <Dialog.Root open={open} onOpenChange={(next) => { if (!next) onClose(); }}>
+    <Dialog.Root
+      open={open}
+      onOpenChange={(next) => {
+        if (!next) onClose();
+      }}
+    >
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-[2px] data-[state=open]:animate-[fadeIn_var(--dur-slow)_var(--ease-out)]" />
         <Dialog.Content
           aria-label="Image viewer"
           aria-roledescription="image viewer"
           className="fixed inset-0 z-[110] flex items-center justify-center p-4 focus:outline-none"
-          onOpenAutoFocus={(e) => { e.preventDefault(); (e.currentTarget as HTMLElement).focus(); }}
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            (e.currentTarget as HTMLElement).focus();
+          }}
           tabIndex={-1}
         >
           {photo && index !== null ? (
             <>
-              <Dialog.Title className="sr-only">Photograph {index + 1}</Dialog.Title>
-              <Dialog.Description className="sr-only">Full-size photograph</Dialog.Description>
+              <Dialog.Title className="sr-only">
+                Photograph from the {seriesLabel} series
+              </Dialog.Title>
+              <Dialog.Description className="sr-only">
+                Full-size photograph, {index + 1} of {photos.length}
+              </Dialog.Description>
 
               <Dialog.Close
                 aria-label="Close viewer"
@@ -76,7 +100,11 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
                     aria-label="Next image"
                     className="fixed right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white transition-colors hover:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:right-8"
                   >
-                    <ChevronRight size={24} strokeWidth={2} aria-hidden="true" />
+                    <ChevronRight
+                      size={24}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
                   </button>
                 </>
               )}
@@ -84,7 +112,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
               <figure className="flex max-w-[92vw] flex-col items-center gap-4">
                 <Image
                   src={photo.url}
-                  alt={`Photograph ${index + 1}`}
+                  alt={`Photograph from the ${seriesLabel} series`}
                   width={photo.width}
                   height={photo.height}
                   sizes="92vw"
@@ -97,7 +125,8 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
                 aria-hidden="true"
                 className="fixed bottom-5 left-1/2 -translate-x-1/2 font-mono text-mono text-white/70"
               >
-                {String(index + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(photos.length).padStart(2, "0")}
               </span>
             </>
           ) : null}

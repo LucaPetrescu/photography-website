@@ -7,35 +7,37 @@ import { Reveal } from "@/components/ui/Reveal";
 export const metadata: Metadata = {
   title: "About Me",
   description:
-    "Luca Petrescu is a landscape and portrait photographer based in the Pacific Northwest, drawn to weather, water, and the soft hour before the world wakes up.",
+    "Luca Petrescu is a photographer based in Bucharest, Romania, working directly with clients on private sessions, events, and personalized shoots.",
 };
 
 const facts = [
-  { label: "Since", value: "2016", caption: "Shooting full-time" },
-  { label: "Based", value: "PNW", caption: "Portland, OR" },
-  { label: "Featured", value: "12", caption: "Publications" },
-  { label: "Prints", value: "40+", caption: "Editions sold" },
+  {
+    label: "Based",
+    value: "Bucharest",
+    caption: "Romania · shooting worldwide",
+  },
+  { label: "Services", value: "3", caption: "Private, events, custom" },
 ];
 
 export default function AboutPage() {
   return (
-    <article className="pt-14">
+    <article className="pt-16">
       <Container className="pb-4 pt-12">
-        <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
-          About Me
+        <p className="text-[0.75rem] uppercase tracking-[0.15em] text-muted">
+          About
         </p>
-        <h1 className="mt-4 max-w-[18ch] font-display text-display font-semibold">
+        <h1 className="mt-4 max-w-[18ch] font-display text-h1 font-normal">
           Hello &mdash; I&rsquo;m Luca.
         </h1>
         <p className="mt-5 max-w-[var(--container-prose)] text-body-lg text-muted">
-          A landscape and portrait photographer based in the Pacific Northwest,
-          drawn to weather, water, and the soft hour before the world wakes up.
+          A photographer based in Bucharest, Romania, working directly with
+          clients on private sessions, events, and personalized shoots.
         </p>
       </Container>
 
       <Container as="section" className="pb-16 pt-8 md:pb-24">
         <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <Reveal className="lg:sticky lg:top-[80px]">
+          <Reveal className="lg:sticky lg:top-[96px]">
             <div
               className="bg-surface-muted"
               style={{ aspectRatio: "3 / 4" }}
@@ -45,40 +47,35 @@ export default function AboutPage() {
           <Reveal>
             <div className="[&_p]:mb-5 [&_p]:max-w-[var(--container-prose)] [&_p]:leading-[1.7]">
               <p className="text-body-lg">
-                I came to photography late, and sideways. For years I was a
-                hydrologist measuring snowpack in the Cascades &mdash; which
-                mostly meant being outdoors at dawn in places few people see. I
-                started carrying a camera to remember them, and somewhere along
-                the way the remembering became the work.
+                I work alone, by choice. No studio, no account manager between
+                us &mdash; when you book a session, you&rsquo;re working
+                directly with me from the first message to the final gallery.
               </p>
               <p>
-                My pictures are quiet on purpose. I&rsquo;m not chasing the
-                dramatic single moment so much as the feeling of a place
-                settling into itself: fog lifting off a field, the tide going
-                out, a face caught mid-thought. I shoot slowly, return often,
-                and throw most of it away.
+                My approach is simple: fewer poses, more moments. I&rsquo;d
+                rather you forget the camera is there for a few minutes than
+                walk away with twenty stiff, camera-aware frames &mdash; true
+                whether it&rsquo;s a private session, an event, or something in
+                between.
               </p>
 
-              <blockquote className="my-10 max-w-[42ch] border-l border-text pl-5 font-display text-[1.4rem] leading-[1.4] tracking-[-0.01em]">
-                &ldquo;I&rsquo;d rather wait two hours for the right light than
-                fake it in five minutes afterward.&rdquo;
+              <blockquote className="my-10 max-w-[42ch] border-l border-text pl-5 font-display text-h3 tracking-[-0.01em]">
+                &ldquo;I&rsquo;d rather wait for the right moment than force it
+                in five minutes.&rdquo;
               </blockquote>
 
-              <h2 className="mb-4 mt-10 font-display text-h2 font-semibold">
+              <h2 className="mb-4 mt-10 font-display text-h2 font-normal">
                 How I work
               </h2>
               <p>
-                Small kit, long days, real weather. I work primarily in natural
-                light, print everything I&rsquo;m proud of, and treat editing as
-                restraint rather than reinvention. For portraits I like to walk
-                and talk first and photograph second &mdash; the good frames
-                tend to arrive once people forget the camera is there.
+                Small kit, real light, minimal setup &mdash; I&rsquo;d rather
+                spend the time with you than behind equipment. I take on private
+                sessions, events, and personalized commissions built around what
+                you actually need, not a fixed package.
               </p>
               <p>
-                I take on a handful of commissions a year &mdash; editorial,
-                fine-art commissions, and the occasional wedding for people who
-                don&rsquo;t mind a 4&nbsp;a.m. call time. If that sounds like
-                you, I&rsquo;d love to hear from you.
+                Not sure which of those fits? That&rsquo;s fine &mdash; reach
+                out and we&rsquo;ll figure it out together.
               </p>
 
               <Link
@@ -93,14 +90,14 @@ export default function AboutPage() {
                 />
               </Link>
 
-              <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-border py-8 md:grid-cols-4">
+              <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-border py-8">
                 {facts.map((fact) => (
                   <div key={fact.label}>
-                    <dt className="mb-1 block text-[0.6875rem] uppercase tracking-[0.1em] text-muted">
+                    <dt className="mb-1 block text-eyebrow uppercase tracking-[0.15em] text-muted">
                       {fact.label}
                     </dt>
                     <dd>
-                      <span className="block font-display text-[2rem] font-semibold leading-none">
+                      <span className="block font-display text-[2rem] font-normal leading-none">
                         {fact.value}
                       </span>
                       <span className="mt-1.5 block text-body-sm text-muted">

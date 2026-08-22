@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Fraunces, Inter, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/siteConfig";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
-const fraunces = Fraunces({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz"],
+  variable: "--font-space-grotesk",
+  weight: ["300", "400", "500"],
   display: "swap",
 });
+
+// Runs before paint so the stored/system theme applies with no flash.
+// Defaults to dark when neither localStorage nor prefers-color-scheme picks light.
+const THEME_INIT_SCRIPT = `(function(){try{var s=localStorage.getItem("theme");var t=(s==="light"||s==="dark")?s:(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +32,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.brand} — Landscape & Portrait Photographer`,
+    default: `${siteConfig.brand} — Private Sessions, Events & Personalized Photography`,
     template: `%s · ${siteConfig.brand}`,
   },
   description: siteConfig.tagline,
@@ -38,14 +42,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: siteConfig.brand,
-    title: `${siteConfig.brand} — Landscape & Portrait Photographer`,
+    title: `${siteConfig.brand} — Private Sessions, Events & Personalized Photography`,
     description: siteConfig.tagline,
     url: siteConfig.url,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brand} — Landscape & Portrait Photographer`,
+    title: `${siteConfig.brand} — Private Sessions, Events & Personalized Photography`,
     description: siteConfig.tagline,
   },
 };
@@ -54,8 +58,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${geistMono.variable} h-full`}
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} h-full`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="bg-bg text-text font-sans antialiased min-h-full flex flex-col">
         <a
           href="#main"

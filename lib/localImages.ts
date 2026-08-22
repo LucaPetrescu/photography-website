@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import probe from "probe-image-size";
 
+export { folderToLabel } from "./folderLabel";
+
 const ASSETS_ROOT = path.join(process.cwd(), "public", "assets");
 const IMAGE_EXTENSION_PATTERN = /\.(jpe?g|png|webp|avif|gif)$/i;
 
@@ -14,6 +16,8 @@ export type Photo = {
   url: string;
   width: number;
   height: number;
+  /** The public/assets folder this photo came from — used for category-aware alt text. */
+  folder: string;
 };
 
 /** Collection folders under public/assets — each one is a gallery category. */
@@ -36,33 +40,22 @@ function toPhoto(folder: string, file: string): Photo {
   const url = `/assets/${folder}/${file}`;
 
   try {
-    const info = probe.sync(fs.readFileSync(path.join(ASSETS_ROOT, folder, file)));
-    if (!info) return { url, ...FALLBACK_ASPECT };
+    const info = probe.sync(
+      fs.readFileSync(path.join(ASSETS_ROOT, folder, file)),
+    );
+    if (!info) return { url, folder, ...FALLBACK_ASPECT };
     const rotated = ROTATED_ORIENTATIONS.has(info.orientation ?? 1);
     return {
       url,
+      folder,
       width: rotated ? info.height : info.width,
       height: rotated ? info.width : info.height,
     };
   } catch {
-    return { url, ...FALLBACK_ASPECT };
+    return { url, folder, ...FALLBACK_ASPECT };
   }
 }
 
 export async function listPhotos(folder: string): Promise<Photo[]> {
   return listImageFiles(folder).map((file) => toPhoto(folder, file));
-}
-
-export async function listAllPhotos(): Promise<Photo[]> {
-  return listFolders().flatMap((folder) =>
-    listImageFiles(folder).map((file) => toPhoto(folder, file)),
-  );
-}
-
-/** "people" -> "People", "studio-jobs" -> "Studio Jobs" */
-export function folderToLabel(folder: string): string {
-  return folder
-    .replace(/\/$/, "")
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
 }

@@ -8,12 +8,10 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="pt-[72px]">
+    <div className="pt-16">
       <Container className="flex min-h-[60vh] flex-col items-start justify-center py-24">
-        <p className="text-eyebrow font-medium uppercase tracking-[0.14em] text-accent">
-          404
-        </p>
-        <h1 className="mt-2 max-w-[18ch] font-display text-display font-semibold">
+        <p className="text-eyebrow font-medium uppercase text-accent">404</p>
+        <h1 className="mt-2 max-w-[18ch] font-display text-h1 font-normal">
           This frame doesn&rsquo;t exist.
         </h1>
         <p className="mt-4 max-w-[46ch] text-body-lg text-muted">

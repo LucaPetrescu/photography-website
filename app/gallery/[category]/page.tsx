@@ -30,16 +30,15 @@ export default async function CategoryPage({ params }: Props) {
   const label = folderToLabel(category);
 
   return (
-    <main id="main" className="pt-14">
+    <main id="main" className="pt-16">
       <Container className="pb-4 pt-12">
-        <p className="text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+        <p className="text-[0.75rem] uppercase tracking-[0.15em] text-muted">
           Gallery
         </p>
-        <h1 className="mt-4 font-display text-display font-semibold">
-          {label}
-        </h1>
+        <h1 className="mt-4 font-display text-h1 font-normal">{label}</h1>
         <p className="mt-2 text-[0.8125rem] text-muted">
-          {photos.length}&nbsp;{photos.length === 1 ? "photograph" : "photographs"}
+          {photos.length}&nbsp;
+          {photos.length === 1 ? "photograph" : "photographs"}
         </p>
       </Container>
 

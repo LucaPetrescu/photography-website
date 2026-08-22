@@ -60,7 +60,7 @@ export function CameraAnnotationCard() {
   return (
     <div className="mb-10 border-t border-border pt-7">
       <div className="mb-6 flex items-baseline gap-4">
-        <h2 className="font-display text-h2 font-semibold">Nikon D750</h2>
+        <h2 className="font-display text-h2 font-normal">Nikon D750</h2>
         <span className="font-mono text-mono text-muted">
           Full-frame DSLR · 2014
         </span>
@@ -104,9 +104,11 @@ export function CameraAnnotationCard() {
                     width: 22,
                     height: 22,
                     borderRadius: "50%",
-                    background: active ? "#111" : "rgba(255,255,255,0.92)",
-                    border: "1.5px solid #111",
-                    boxShadow: "0 1px 6px rgba(0,0,0,0.25)",
+                    background: active
+                      ? "var(--color-text)"
+                      : "var(--color-bg)",
+                    border: "1.5px solid var(--color-text)",
+                    boxShadow: "0 1px 6px rgba(0,0,0,0.4)",
                     cursor: "default",
                     transition: "background 120ms ease",
                   }}
@@ -117,7 +119,7 @@ export function CameraAnnotationCard() {
                       fontSize: 9,
                       fontWeight: 600,
                       lineHeight: 1,
-                      color: active ? "#fff" : "#111",
+                      color: active ? "var(--color-bg)" : "var(--color-text)",
                       transition: "color 120ms ease",
                     }}
                   >
@@ -184,7 +186,7 @@ export function CameraAnnotationCard() {
                 width: 18,
                 height: 18,
                 borderRadius: "50%",
-                border: "1.5px solid #111",
+                border: "1.5px solid var(--color-text)",
                 fontFamily: "var(--font-mono)",
                 fontSize: 9,
                 fontWeight: 600,

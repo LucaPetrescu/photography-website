@@ -4,13 +4,13 @@ import { useActionState, useId } from "react";
 import Link from "next/link";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { submitContact } from "@/app/contact/actions";
-import { contactInitialState } from "@/lib/validation";
+import { contactInitialState, PROJECT_TYPES } from "@/lib/validation";
 import { siteConfig } from "@/lib/siteConfig";
 import { cn } from "@/lib/cn";
 import { SubmitButton } from "@/components/contact/SubmitButton";
 
 const inputBase =
-  "w-full min-h-11 rounded-md border bg-surface px-4 py-3 text-base text-text transition-[border-color,box-shadow] duration-[var(--dur-fast)] placeholder:text-muted/70 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]";
+  "w-full min-h-11 rounded-sm border border-border bg-surface-muted px-4 py-3 text-base text-text transition-[border-color,box-shadow] duration-[var(--dur-fast)] placeholder:text-subtle focus:outline-none focus:border-muted focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]";
 
 const inputError =
   "border-error focus:border-error focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-error)_18%,transparent)]";
@@ -42,10 +42,11 @@ export function ContactForm() {
   const ids = {
     name: `${uid}-name`,
     email: `${uid}-email`,
-    subject: `${uid}-subject`,
+    projectType: `${uid}-project-type`,
     message: `${uid}-message`,
     nameErr: `${uid}-name-err`,
     emailErr: `${uid}-email-err`,
+    projectTypeErr: `${uid}-project-type-err`,
     messageErr: `${uid}-message-err`,
     status: `${uid}-status`,
   };
@@ -58,12 +59,12 @@ export function ContactForm() {
       <div
         role="status"
         aria-live="polite"
-        className="flex flex-col items-start gap-4 rounded-lg border border-[color-mix(in_srgb,var(--color-success)_30%,transparent)] bg-accent-subtle p-8"
+        className="flex flex-col items-start gap-4 rounded-sm border border-[color-mix(in_srgb,var(--color-success)_30%,transparent)] bg-accent-subtle p-8"
       >
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-success)_18%,transparent)] text-success">
           <CheckCircle2 size={26} strokeWidth={2.2} aria-hidden="true" />
         </span>
-        <h2 className="font-display text-h2 font-semibold">
+        <h2 className="font-display text-h2 font-normal">
           Thanks — your message is on its way.
         </h2>
         <p className="max-w-[48ch] text-muted">
@@ -79,7 +80,7 @@ export function ContactForm() {
         </p>
         <Link
           href="/gallery"
-          className="inline-flex min-h-11 items-center justify-center rounded-md border border-border px-6 py-3 text-body-sm font-medium transition-colors hover:border-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+          className="inline-flex min-h-11 items-center justify-center rounded-sm border border-border-subtle px-6 py-3 text-body-sm font-medium transition-colors hover:border-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
           Back to the gallery
         </Link>
@@ -89,6 +90,14 @@ export function ContactForm() {
 
   return (
     <form action={formAction} className="grid gap-5" noValidate>
+      <div>
+        <h2 className="font-display text-h2 font-normal">Send a Message</h2>
+        <p className="mt-2 text-body-sm text-muted">
+          Fill out the form below and I&rsquo;ll get back to you within a couple
+          of days.
+        </p>
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-1.5">
           <label htmlFor={ids.name} className="text-body-sm font-medium">
@@ -126,16 +135,27 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-1.5">
-        <label htmlFor={ids.subject} className="text-body-sm font-medium">
-          Subject <span className="font-normal text-muted">(optional)</span>
+        <label htmlFor={ids.projectType} className="text-body-sm font-medium">
+          What&rsquo;s this about?
         </label>
-        <input
-          id={ids.subject}
-          name="subject"
-          type="text"
-          placeholder="Commission, print enquiry, …"
-          className={inputBase}
-        />
+        <select
+          id={ids.projectType}
+          name="projectType"
+          defaultValue=""
+          aria-invalid={errors.projectType ? "true" : undefined}
+          aria-describedby={errors.projectType ? ids.projectTypeErr : undefined}
+          className={cn(inputBase, errors.projectType && inputError)}
+        >
+          <option value="" disabled>
+            Select one
+          </option>
+          {PROJECT_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        <FieldError id={ids.projectTypeErr} message={errors.projectType?.[0]} />
       </div>
 
       <div className="grid gap-1.5">
