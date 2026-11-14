@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { listFolders, listPhotos, folderToLabel } from "@/lib/localImages";
 import { Container } from "@/components/ui/Container";
+import { Hero } from "@/components/layout/Hero";
 import { Reveal } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -33,42 +34,13 @@ export default async function OverviewPage() {
 
   return (
     <main id="main">
-      {/* Hero — full viewport, name centered over a full-bleed photograph. */}
-      <div className="relative flex h-screen min-h-[560px] w-full items-center justify-center overflow-hidden bg-bg">
-        <Image
-          src={heroImage}
-          alt="Luca Petrescu - Photographer"
-          fill
-          priority
-          placeholder="blur"
-          sizes="100vw"
-          className="object-cover object-[center_35%]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-bg/70 via-bg/40 to-bg/80"
-        />
-
-        <div className="relative flex flex-col items-center px-6 text-center">
-          <p className="text-[0.75rem] uppercase tracking-[0.15em] text-muted">
-            Private Sessions &middot; Events &middot; Personalized Shoots
-          </p>
-          <h1 className="mt-6 font-display text-display font-light leading-none tracking-[-0.02em] text-text">
-            Luca Petrescu
-          </h1>
-          <p className="mt-6 text-[0.875rem] text-muted">
-            Photography, direct — based in Bucharest, Romania.
-          </p>
-        </div>
-
-        <ChevronDown
-          size={22}
-          strokeWidth={1.25}
-          aria-hidden="true"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted"
-          style={{ animation: "scrollHint 2.2s var(--ease-in-out) infinite" }}
-        />
-      </div>
+      <Hero
+        image={heroImage}
+        imageAlt="Luca Petrescu - Photographer"
+        eyebrow="Private Sessions · Events · Personalized Shoots"
+        headline="Luca Petrescu"
+        lead="Photography, direct — based in Bucharest, Romania."
+      />
 
       {/* Centered text block — introduces the work, sits directly on the void. */}
       <Container className="py-24 md:py-32">

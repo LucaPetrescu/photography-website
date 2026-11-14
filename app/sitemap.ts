@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/siteConfig";
-import { getProjectCategories } from "@/lib/gallery";
+import { listFolders } from "@/lib/localImages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -13,8 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: item.href === "/" ? 1 : 0.8,
   }));
 
-  const categoryPages = getProjectCategories().map((p) => ({
-    url: new URL(`/gallery/${p.slug}`, base).toString(),
+  const categoryPages = listFolders().map((folder) => ({
+    url: new URL(`/gallery/${folder}`, base).toString(),
     lastModified: now,
     changeFrequency: "yearly" as const,
     priority: 0.7,

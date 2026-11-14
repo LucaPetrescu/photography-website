@@ -12,14 +12,8 @@ const variants: Record<Variant, string> = {
   ghost: "bg-transparent text-text border-border-subtle hover:border-text",
 };
 
-/** Variant for use over dark imagery (e.g. on the hero). */
-const onDark =
-  "text-white border-white/50 hover:border-white hover:bg-white/10";
-
 type CommonProps = {
   variant?: Variant;
-  /** Lighten ghost button for placement over dark imagery. */
-  onDark?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -38,20 +32,9 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 /** Shared CTA button — renders an anchor (next/link) when `href` is given. */
 export function Button(props: ButtonProps) {
-  const {
-    variant = "primary",
-    onDark: dark = false,
-    className,
-    children,
-    ...rest
-  } = props;
+  const { variant = "primary", className, children, ...rest } = props;
 
-  const classes = cn(
-    base,
-    variants[variant],
-    dark && variant === "ghost" && onDark,
-    className,
-  );
+  const classes = cn(base, variants[variant], className);
 
   if ("href" in props && props.href !== undefined) {
     const { href, ...linkRest } = rest as ButtonAsLink;
