@@ -81,10 +81,39 @@ export default function AboutPage() {
                 How I work
               </h2>
               <p>
-                Small kit, real light, minimal setup &mdash; I&rsquo;d rather
-                spend the time with you than behind equipment. I take on private
-                sessions, events, and personalized commissions built around what
-                you actually need, not a fixed package.
+                I take on private sessions, events, and personalized commissions, planned around what you actually need.
+              </p>
+              <p>
+                Individual / couple sessions and events are a fixed price.
+                Personalized commissions are the only ones quoted separately.
+              </p>
+              <ul className="my-6 grid max-w-[var(--container-prose)] gap-2.5">
+                <li className="flex items-start gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="mt-2 h-1 w-1 flex-none bg-muted"
+                  />
+                  Book an appointment by phone or through the contact form.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="mt-2 h-1 w-1 flex-none bg-muted"
+                  />
+                  Every service comes with an invoice.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="mt-2 h-1 w-1 flex-none bg-muted"
+                  />
+                  A deposit reserves your date.
+                </li>
+              </ul>
+              <p>
+                If you have a mood or vision board on Pinterest, send it over
+                &mdash; it gives me a clear idea of what you&rsquo;re after, and
+                we can talk through the ideas together.
               </p>
               <p>
                 Not sure which of those fits? That&rsquo;s fine &mdash; reach
