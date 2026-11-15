@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+
+import officeImage from "@/public/images/Luca_Petrescu_Office.jpg";
 
 export const metadata: Metadata = {
   title: "About Me",
@@ -39,9 +42,18 @@ export default function AboutPage() {
         <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <Reveal className="lg:sticky lg:top-[96px]">
             <div
-              className="bg-surface-muted"
+              className="relative overflow-hidden rounded-lg bg-surface-muted"
               style={{ aspectRatio: "3 / 4" }}
-            />
+            >
+              <Image
+                src={officeImage}
+                alt="Luca Petrescu in his office"
+                fill
+                placeholder="blur"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
 
           <Reveal>
