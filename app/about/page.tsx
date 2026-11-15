@@ -66,8 +66,8 @@ export default function AboutPage() {
               <p>
                 I like to plan ahead, so before the shoot we&rsquo;ll go through
                 exactly what you want: the kind of images, the location, the
-                timing. Clear communication up front means the session is about
-                taking photos, not figuring things out.
+                timing. Having that clear from the start keeps the session
+                relaxed and lets us focus on the photos.
               </p>
               <p>
                 Sessions are professional, but relaxed. We do the work, and
