@@ -59,22 +59,23 @@ export default function AboutPage() {
           <Reveal>
             <div className="[&_p]:mb-5 [&_p]:max-w-[var(--container-prose)] [&_p]:leading-[1.7]">
               <p className="text-body-lg">
-                I work alone, by choice. No studio, no account manager between
-                us &mdash; when you book a session, you&rsquo;re working
-                directly with me from the first message to the final gallery.
+                I work on my own, by choice. No studio and no account manager in
+                the middle &mdash; you write to me, we plan the shoot together,
+                and I&rsquo;m the one behind the camera.
               </p>
               <p>
-                My approach is simple: fewer poses, more moments. I&rsquo;d
-                rather you forget the camera is there for a few minutes than
-                walk away with twenty stiff, camera-aware frames &mdash; true
-                whether it&rsquo;s a private session, an event, or something in
-                between.
+                I like to plan ahead, so before the shoot we&rsquo;ll go through
+                exactly what you want: the kind of images, the location, the
+                timing. Clear communication up front means the session is about
+                taking photos, not figuring things out.
               </p>
-
-              <blockquote className="my-10 max-w-[42ch] border-l border-text pl-5 font-display text-h3 tracking-[-0.01em]">
-                &ldquo;I&rsquo;d rather wait for the right moment than force it
-                in five minutes.&rdquo;
-              </blockquote>
+              <p>
+                Sessions are professional, but relaxed. We do the work, and
+                there&rsquo;s room to chat along the way. I keep posing to a
+                minimum and I&rsquo;m happy to try your own ideas during the
+                shoot. Mostly, I want you to feel comfortable enough that you
+                stop thinking about the camera.
+              </p>
 
               <h2 className="mb-4 mt-10 font-display text-h2 font-normal">
                 How I work
