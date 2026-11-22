@@ -32,7 +32,26 @@ export function ServiceCard({
 
       <div className="mt-6 max-w-[52ch] md:mt-0">
         <p className="text-body-lg text-muted">{service.description}</p>
-        <ul className="mt-5 grid gap-2">
+
+        {/* Price block — DESIGN.md "Service Pricing" (Option B).
+            Always visible at rest, never a hover-only reveal. */}
+        <div className="mt-6 w-fit min-w-[180px] rounded-md border border-border bg-surface p-4">
+          {service.priceTag ? (
+            <p className="text-eyebrow uppercase text-subtle">
+              {service.priceTag}
+            </p>
+          ) : null}
+          <p className="mt-1.5 font-display text-price font-normal text-text">
+            {service.priceLabel}
+          </p>
+          {service.priceMeta ? (
+            <p className="mt-1.5 text-body-sm text-muted">
+              {service.priceMeta}
+            </p>
+          ) : null}
+        </div>
+
+        <ul className="mt-6 grid gap-2">
           {service.details.map((detail) => (
             <li
               key={detail}

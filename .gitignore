@@ -46,6 +46,7 @@ yarn-error.log*
 
 # DOCS
 DOCUMENTATION/
+DESIGN.md/
 
 # references
 references/

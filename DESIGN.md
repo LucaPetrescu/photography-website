@@ -360,6 +360,28 @@ Each service displays with:
 └─────────────────────────────────────────────────┘
 ```
 
+### Service Pricing (chosen: Option B — Price Block)
+
+Pricing is presented as a contained, scannable block integrated into each service row (oversized index number, title/description, detail list), using the existing monochrome palette and typography roles.
+
+**Data model:** extend `Service` with `priceLabel` (e.g. "€250", "from €600", "Custom quote") and optional `priceMeta` (e.g. "1–2 hours · edited gallery", "Half-day · full-day options available", "Scoped to your brief"). Render `priceMeta` only when present; allow "Custom quote"/"Custom" as the amount value. Include an optional `priceTag`/label for the block heading (examples: "Session rate", "Starting from", "Pricing").
+
+**Placement:** in the right/content column, above the details list (after the description).
+
+**Container:**
+- `background: var(--surface)` (or `--surface-elevated` in dense contexts)
+- `border: 1px solid var(--border)`
+- `border-radius: {rounded.md}` (8px)
+- padding: ~14–18px
+- inline layout with `min-width: ~180px`
+
+**Content structure:**
+1. **Block label** — small uppercase label in `{typography.label}` style (0.6875–0.75rem, tracking 0.15em, `--text-subtle`), e.g. "Session rate", "Starting from", "Pricing"
+2. **Amount** — `priceLabel` in Space Grotesk 1.75–2rem, weight 400, line-height ~1.1, `--text`
+3. **Meta** (optional) — `priceMeta` in caption/body-note style (0.8125–0.875rem, `--text-muted`)
+
+**Interaction & theme notes:** pricing must be visible at rest (no hover-only reveal). In both themes, maintain text/background contrast per system rules and use existing tokens (`--border`, `--border-subtle`, `--surface`, `--surface-elevated`, `--text`, `--text-muted`, `--text-subtle`).
+
 ### Footer
 
 Minimal, 64px tall, centered on the void-black background.

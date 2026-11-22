@@ -6,6 +6,12 @@ export type Service = {
   icon: LucideIcon;
   description: string;
   details: string[];
+  /** Price block heading label — e.g. "Session rate", "Starting from". */
+  priceTag?: string;
+  /** Amount shown in the price block — e.g. "€250", "from €600", "Custom quote". */
+  priceLabel: string;
+  /** Optional line under the amount — e.g. "1–2 hours · edited gallery". */
+  priceMeta?: string;
 };
 
 export const services: Service[] = [
@@ -19,6 +25,9 @@ export const services: Service[] = [
       "1–2 hour session, on location or studio",
       "Edited digital gallery delivered within a week",
     ],
+    priceTag: "Session rate",
+    priceLabel: "500 RON",
+    priceMeta: "1–2 hours · edited gallery",
   },
   {
     name: "Events",
@@ -30,6 +39,9 @@ export const services: Service[] = [
       "Candid and posed moments",
       "Quick-turnaround preview gallery",
     ],
+    priceTag: "Starting from",
+    priceLabel: "3000 RON",
+    priceMeta: "Half-day · full-day options available",
   },
   {
     name: "Personalized Offer",
@@ -41,5 +53,8 @@ export const services: Service[] = [
       "Multi-day or recurring shoots welcome",
       "A quick call or email to plan it out",
     ],
+    priceTag: "Pricing",
+    priceLabel: "Custom quote",
+    priceMeta: "Scoped to your brief",
   },
 ];
