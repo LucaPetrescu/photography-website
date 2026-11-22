@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { listFolders, listPhotos, folderToLabel } from "@/lib/localImages";
+import { shuffled } from "@/lib/shuffle";
 import { Container } from "@/components/ui/Container";
 import { PhotoWall } from "@/components/gallery/PhotoWall";
 
@@ -26,7 +27,9 @@ export default async function CategoryPage({ params }: Props) {
   const folders = listFolders();
   if (!folders.includes(category)) notFound();
 
-  const photos = await listPhotos(category);
+  // Shuffled once at build time: the order is fixed per deploy, which is fine
+  // because adding photos already requires one.
+  const photos = shuffled(await listPhotos(category));
   const label = folderToLabel(category);
 
   return (

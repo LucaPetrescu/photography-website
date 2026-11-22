@@ -13,6 +13,7 @@ const ROTATED_ORIENTATIONS = new Set([5, 6, 7, 8]);
 const FALLBACK_ASPECT = { width: 3, height: 2 };
 
 export type Photo = {
+  photoId: number;
   url: string;
   width: number;
   height: number;
@@ -36,26 +37,29 @@ function listImageFiles(folder: string): string[] {
     .sort();
 }
 
-function toPhoto(folder: string, file: string): Photo {
+function toPhoto(folder: string, file: string, photoId: number): Photo {
   const url = `/assets/${folder}/${file}`;
 
   try {
     const info = probe.sync(
       fs.readFileSync(path.join(ASSETS_ROOT, folder, file)),
     );
-    if (!info) return { url, folder, ...FALLBACK_ASPECT };
+    if (!info) return { photoId, url, folder, ...FALLBACK_ASPECT };
     const rotated = ROTATED_ORIENTATIONS.has(info.orientation ?? 1);
     return {
+      photoId,
       url,
       folder,
       width: rotated ? info.height : info.width,
       height: rotated ? info.width : info.height,
     };
   } catch {
-    return { url, folder, ...FALLBACK_ASPECT };
+    return { photoId, url, folder, ...FALLBACK_ASPECT };
   }
 }
 
 export async function listPhotos(folder: string): Promise<Photo[]> {
-  return listImageFiles(folder).map((file) => toPhoto(folder, file));
+  return listImageFiles(folder).map((file, index) =>
+    toPhoto(folder, file, index + 1),
+  );
 }
