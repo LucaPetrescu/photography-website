@@ -22,8 +22,7 @@ export const services: Service[] = [
       "One-on-one portrait sessions — solo, couples, or family. Natural light, relaxed pacing, and a set of images that actually look like you.",
     details: [
       "Individual, couple, or family portraits",
-      "1–2 hour session, on location or studio",
-      "Ship the photos within a week",
+      "On location or studio",
     ],
     priceTag: "Session rate",
     priceLabel: "500 RON",
@@ -35,7 +34,6 @@ export const services: Service[] = [
     description:
       "Weddings, corporate events, birthdays, and everything in between. Documentary-style coverage that captures the moments you'd otherwise miss.",
     details: [
-      "Full or half-day coverage",
       "Candid and posed moments",
       "Quick-turnaround preview gallery (also within a week)",
     ],
