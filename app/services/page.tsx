@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { ServiceCard } from "@/components/services/ServiceCard";
@@ -41,13 +41,10 @@ export default function ServicesPage() {
           <p className="max-w-[46ch] text-body-lg">
             Ready to book, or still deciding? Tell me what you have in mind.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex h-12 flex-none items-center gap-2 bg-text px-6 text-sm font-medium text-surface transition-colors hover:bg-accent-hover"
-          >
+          <Button href="/contact" className="h-12 flex-none">
             Get in touch
             <ArrowRight size={16} strokeWidth={1.75} aria-hidden="true" />
-          </Link>
+          </Button>
         </Reveal>
       </Container>
     </div>
