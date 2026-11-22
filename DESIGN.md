@@ -364,7 +364,9 @@ Each service displays with:
 
 Pricing is presented as a contained, scannable block integrated into each service row (oversized index number, title/description, detail list), using the existing monochrome palette and typography roles.
 
-**Data model:** extend `Service` with `priceLabel` (e.g. "€250", "from €600", "Custom quote") and optional `priceMeta` (e.g. "1–2 hours · edited gallery", "Half-day · full-day options available", "Scoped to your brief"). Render `priceMeta` only when present; allow "Custom quote"/"Custom" as the amount value. Include an optional `priceTag`/label for the block heading (examples: "Session rate", "Starting from", "Pricing").
+**Data model:** extend `Service` with `priceLabel` (e.g. "€250", "from €600", "Custom quote") and optional `priceMeta` (e.g. "1–2 hours · photos within a week", "Half-day · full-day options available", "Scoped to your brief"). Render `priceMeta` only when present; allow "Custom quote"/"Custom" as the amount value. Include an optional `priceTag`/label for the block heading (examples: "Session rate", "Starting from", "Pricing").
+
+**Copy constraint:** no online gallery is offered. Describe delivery as photos shipped within a week; a preview gallery is also delivered within a week. Avoid "edited gallery" phrasing.
 
 **Placement:** in the right/content column, above the details list (after the description).
 

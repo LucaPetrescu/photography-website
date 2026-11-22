@@ -10,7 +10,7 @@ export type Service = {
   priceTag?: string;
   /** Amount shown in the price block — e.g. "€250", "from €600", "Custom quote". */
   priceLabel: string;
-  /** Optional line under the amount — e.g. "1–2 hours · edited gallery". */
+  /** Optional line under the amount — e.g. "1–2 hours · photos within a week". */
   priceMeta?: string;
 };
 
@@ -23,11 +23,11 @@ export const services: Service[] = [
     details: [
       "Individual, couple, or family portraits",
       "1–2 hour session, on location or studio",
-      "Edited digital gallery delivered within a week",
+      "Ship the photos within a week",
     ],
     priceTag: "Session rate",
     priceLabel: "500 RON",
-    priceMeta: "1–2 hours · edited gallery",
+    priceMeta: "1–2 hours · photos within a week",
   },
   {
     name: "Events",
@@ -37,7 +37,7 @@ export const services: Service[] = [
     details: [
       "Full or half-day coverage",
       "Candid and posed moments",
-      "Quick-turnaround preview gallery",
+      "Quick-turnaround preview gallery (also within a week)",
     ],
     priceTag: "Starting from",
     priceLabel: "3000 RON",

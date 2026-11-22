@@ -9,10 +9,16 @@ import type { NextConfig } from "next";
  *   inject inline <style>/style attributes during static rendering.
  * - `img-src` allows data:/blob: for `next/image` blur placeholders.
  * - `connect-src 'self'` is enough; the Brevo call happens server-side.
+ *
+ * In development only, `script-src` also allows `'unsafe-eval'` because React's
+ * dev build uses eval() to reconstruct call stacks. Production never does, so
+ * the shipped policy stays eval-free.
  */
+const isDev = process.env.NODE_ENV !== "production";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
